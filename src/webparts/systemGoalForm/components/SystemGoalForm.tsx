@@ -22,6 +22,9 @@ interface ISystemGoalFormState {
   goals: string[];
   subGoal: string;
   grid: IGridRow[];
+  dropdownText: string;
+  systemGoalDropdownText: string;
+  subGoalDropdownText: string;
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -43,8 +46,32 @@ export default class SystemGoalForm extends React.Component<
           details: "",
         },
       ],
+      dropdownText: 'Choose Hospital',
+      systemGoalDropdownText: 'Choose System Goal',
+      subGoalDropdownText: 'Choose Sub Goal'
     };
+  
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.systemGoalClick = this.systemGoalClick.bind(this);
+    this.subGoalClick = this.subGoalClick.bind(this);
   }
+  handleItemClick(event:any) {
+    this.setState({
+        dropdownText: event.target.textContent
+    });
+  }
+  systemGoalClick(event:any) {
+    this.setState({
+      systemGoalDropdownText: event.target.textContent
+    });
+  }
+  subGoalClick(event:any) {
+    this.setState({
+      subGoalDropdownText: event.target.textContent
+    });
+  }
+
+  
 
   handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -252,7 +279,8 @@ export default class SystemGoalForm extends React.Component<
         <div className="system_goal_container">
           <h3>System Goals 2025 <i className="far fa-angle-down"></i></h3>
           <form onSubmit={this.handleSubmit}>
-            <div className="field_container">
+           <div className="filter_container">
+           <div className="field_container">
               <label>Hospitals:</label>
               <div className="dropdown">
                 <button
@@ -261,11 +289,11 @@ export default class SystemGoalForm extends React.Component<
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Hospitals
+                  {this.state.dropdownText}
                 </button>
                 <ul className="dropdown-menu">
                   <li className="group_list">
-                    <a className="dropdown-item title" href="#">
+                    <a className="dropdown-item title" href="#" onClick={this.handleItemClick}>
                       BILH
                     </a>
                     <ul>
@@ -273,28 +301,28 @@ export default class SystemGoalForm extends React.Component<
                       <a className="dropdown-item inner_title" href="#">Metro Boston Division</a>
                       <ul>
                         <li>
-                          <a className="dropdown-item" href="#">BIDMC</a>
+                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDMC</a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#">Joslin</a>
+                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Joslin</a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#">MAH</a>
+                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>MAH</a>
                         </li>
                         <li>
-                          <a className="dropdown-item" href="#">NEBH</a>
+                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NEBH</a>
                         </li>
                       </ul>
 
                       </li>
                       <li className="inner_group">
-                      <a className="dropdown-item  inner_title" href="#">Community Division</a>
+                      <a className="dropdown-item  inner_title" href="#" onClick={this.handleItemClick}>Community Division</a>
                       </li>
                       <li className="inner_group">
-                      <a className="dropdown-item inner_title" href="#">LHMC Division</a>
+                      <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>LHMC Division</a>
                       </li>
                       <li className="inner_group">
-                      <a className="dropdown-item inner_title" href="#">Diversified Services</a>
+                      <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>Diversified Services</a>
                       </li>
                     </ul>
                   </li>
@@ -312,26 +340,26 @@ export default class SystemGoalForm extends React.Component<
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                 Choose System Goal
+                  {this.state.systemGoalDropdownText}
                 </button>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
                     People
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
                     Quality and Experience
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
                     Finance and Operations
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
                     Strategy
                     </a>
                   </li>
@@ -349,27 +377,28 @@ export default class SystemGoalForm extends React.Component<
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                 Choose Sub Goal
+                  {this.state.subGoalDropdownText}
                 </button>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
                     Retention, recruitment, development
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
                     Engagement, culture, communication, well-being
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
                     Labor efficiency/ productivity
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
+           </div>
 
             {/* Table View */}
             <table className="value_table">
@@ -576,6 +605,10 @@ export default class SystemGoalForm extends React.Component<
                 </tr>
               </tbody>
             </table>
+
+            <div className="btn_container_footer">
+              <button className="active">Reset</button> <button>Save</button>
+            </div>
           </form>
         </div>
       </>

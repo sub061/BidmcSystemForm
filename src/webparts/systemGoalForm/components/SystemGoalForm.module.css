@@ -15,11 +15,15 @@
   margin: 0;
   margin-bottom: 36px;
 }
+.system_goal_container .filter_container {
+  display: inline-flex;
+  flex-direction: column;
+}
 .system_goal_container .field_container {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -28,11 +32,14 @@
   font-weight: 600;
   min-width: 100px;
 }
+.system_goal_container .dropdown {
+  flex: 1;
+}
 .system_goal_container .dropdown .btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 210px;
+  min-width: 100%;
   gap: 16px;
   border: 1px solid #d2d2d2;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
@@ -117,4 +124,35 @@
   border: 1px solid #d2d2d2;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
+}
+.system_goal_container .btn_container_footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.system_goal_container .btn_container_footer button {
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #0078d4;
+  overflow: hidden;
+  float: left;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1568627451);
+  padding: 8px 12px;
+  min-width: 100px;
+}
+.system_goal_container .btn_container_footer button:hover {
+  background-color: #0078d4;
+  color: #fff;
+}
+.system_goal_container .btn_container_footer button.active {
+  background-color: #0078d4;
+  color: #fff;
+}
+.system_goal_container .btn_container_footer button.active:hover {
+  background-color: #fff;
+  color: #0078d4;
 }/*# sourceMappingURL=SystemGoalForm.module.css.map */
