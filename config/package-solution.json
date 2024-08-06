@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "system-goal-form-client-side-solution",
+    "id": "a03c7e5f-5e3b-4f55-9006-588207e696da",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "system-goal-form description"
+      },
+      "longDescription": {
+        "default": "system-goal-form description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "system-goal-form Feature",
+        "description": "The feature that activates elements of the system-goal-form solution.",
+        "id": "27b5b70c-c8f4-4a37-b98b-88d89b5366c3",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/system-goal-form.sppkg"
+  }
+}
