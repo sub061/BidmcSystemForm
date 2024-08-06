@@ -1,0 +1,87 @@
+/*
+  Your use of the content in the files referenced here is subject to the terms of the license at http://aka.ms/fabric-assets-license
+*/
+.dummy {
+  opacity: 1;
+}
+
+.system_goal_container {
+  font-family: "SegoeUI", "Segoe UI", sans-serif;
+}
+.system_goal_container h3 {
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 36px;
+}
+.system_goal_container .field_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.system_goal_container .field_container label {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 100px;
+}
+.system_goal_container .field_container .dropdown .btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 210px;
+  gap: 16px;
+  border: 1px solid #d2d2d2;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+.system_goal_container .field_container .dropdown .btn.dropdown-toggle:after {
+  border: 0 !important;
+  content: "\f107";
+  display: inline-block;
+  font-family: "Font Awesome 5 free";
+  font-weight: 900;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu {
+  width: 100%;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .dropdown-item {
+  white-space: pre-wrap;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: #def0f8;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .group_list .title {
+  font-weight: 600;
+  background-color: #0078d4;
+  color: #fff;
+  border-bottom: 1px solid #70a8d2;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .group_list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .group_list ul .dropdown-item {
+  padding-left: 22px;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .group_list .inner_group .inner_title {
+  font-weight: 600;
+  background-color: #70a8d2;
+  color: #fff;
+  font-size: 14px;
+  border-bottom: 1px solid #fff;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+.system_goal_container .field_container .dropdown .dropdown-menu .group_list .inner_group ul .dropdown-item {
+  padding-left: 28px;
+  font-size: 13px;
+}/*# sourceMappingURL=SystemGoalForm.module.css.map */
