@@ -370,6 +370,212 @@ export default class SystemGoalForm extends React.Component<
                 </ul>
               </div>
             </div>
+
+            {/* Table View */}
+            <table className="value_table">
+              <thead>
+                <th>KPI's</th>
+                <th>&nbsp;</th>
+                <th>Actual</th>
+                <th>Target</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nursing turnover rate (win 1 yr.)</td>
+                  <td>
+                  <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 Percentage
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Percentage
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Boolean
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                   Number
+                    </a>
+                  </li>
+                </ul>
+              </div>
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Allied Health turnover (win 1 yr.)
+                  </td>
+                  <td>
+                  <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 Percentage
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Percentage
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Boolean
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                   Number
+                    </a>
+                  </li>
+                </ul>
+              </div>
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>New Hiring (critical areas.)
+                  </td>
+                  <td>
+                  <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 Percentage
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Percentage
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Boolean
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                   Number
+                    </a>
+                  </li>
+                </ul>
+              </div>
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Rate of URPOC retention in defined roles
+                  </td>
+                  <td>
+                  <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 Percentage
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Percentage
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Boolean
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                   Number
+                    </a>
+                  </li>
+                </ul>
+              </div>
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Volume of trainees in partnership
+                  </td>
+                  <td>
+                  <div className="dropdown">
+                <button
+                  className="btn dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 Percentage
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Percentage
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                    Boolean
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                   Number
+                    </a>
+                  </li>
+                </ul>
+              </div>
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                  <td>
+                    <input type="text" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </form>
         </div>
       </>
