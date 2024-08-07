@@ -277,6 +277,16 @@ export default class SystemGoalForm extends React.Component<
         <span className={`${styles.dummy}`}></span>
 
         <div className="system_goal_container">
+        <div
+          style={{
+            width: "100%",
+            fontSize: "36px",
+            textAlign: "center",
+            marginBottom: "32px",
+          }}
+        >
+          BILH Operating Model
+        </div>
           <h3>
             <span>System Goals 2025</span>
           </h3>
@@ -428,15 +438,15 @@ export default class SystemGoalForm extends React.Component<
             {/* Table View */}
             <table className="value_table">
               <thead>
-                <th style={{ width: '130px', textAlign: 'left' }}>KPI's</th>
+                <th style={{ width: '320px', textAlign: 'left' }}>KPI's</th>
                 <th style={{ width: '150px', textAlign: 'center' }}>&nbsp;</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Actual</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Target</th>
+                <th style={{ width: '150px', textAlign: 'center' }}>Actual</th>
+                <th style={{ width: '150px', textAlign: 'center' }}>Target</th>
                 <th>Comments</th>
               </thead>
               <tbody>
                 <tr>
-                  <td style={{ width: '130px', textAlign: 'left' }}>Nursing turnover rate (win 1 yr.)</td>
+                  <td style={{ width: '320px', textAlign: 'left' }}>Nursing turnover rate (win 1 yr.)</td>
                   <td style={{ width: '150px', textAlign: 'center' }}>
                     <div className="dropdown">
                       <button
@@ -466,7 +476,7 @@ export default class SystemGoalForm extends React.Component<
                       </ul>
                     </div>
                   </td>
-                  <td style={{ width: '100px', textAlign: 'center' }}>
+                  <td style={{ width: '150px', textAlign: 'center' }}>
                     <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
@@ -475,7 +485,7 @@ export default class SystemGoalForm extends React.Component<
                       </div>
                     </span>
                   </td>
-                  <td style={{ width: '100px', textAlign: 'center' }}>
+                  <td style={{ width: '150px', textAlign: 'center' }}>
                   <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
