@@ -50,28 +50,28 @@ export default class SystemGoalForm extends React.Component<
       systemGoalDropdownText: 'Choose System Goal',
       subGoalDropdownText: 'Choose Sub Goal'
     };
-  
+
     this.handleItemClick = this.handleItemClick.bind(this);
     this.systemGoalClick = this.systemGoalClick.bind(this);
     this.subGoalClick = this.subGoalClick.bind(this);
   }
-  handleItemClick(event:any) {
+  handleItemClick(event: any) {
     this.setState({
-        dropdownText: event.target.textContent
+      dropdownText: event.target.textContent
     });
   }
-  systemGoalClick(event:any) {
+  systemGoalClick(event: any) {
     this.setState({
       systemGoalDropdownText: event.target.textContent
     });
   }
-  subGoalClick(event:any) {
+  subGoalClick(event: any) {
     this.setState({
       subGoalDropdownText: event.target.textContent
     });
   }
 
-  
+
 
   handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -277,330 +277,434 @@ export default class SystemGoalForm extends React.Component<
         <span className={`${styles.dummy}`}></span>
 
         <div className="system_goal_container">
-          <h3>System Goals 2025 <i className="far fa-angle-down"></i></h3>
+          <h3>
+            <span>System Goals 2025</span>
+          </h3>
           <form onSubmit={this.handleSubmit}>
-           <div className="filter_container">
-           <div className="field_container">
-              <label>Hospitals:</label>
-              <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {this.state.dropdownText}
-                </button>
-                <ul className="dropdown-menu">
-                  <li className="group_list">
-                    <a className="dropdown-item title" href="#" onClick={this.handleItemClick}>
-                      BILH
-                    </a>
-                    <ul>
-                      <li className="inner_group">
-                      <a className="dropdown-item inner_title" href="#">Metro Boston Division</a>
+            <div className="filter_container">
+              <div className="field_container">
+                <label>Hospitals:</label>
+                <div className="dropdown">
+                  <button
+                    className="btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {this.state.dropdownText}
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li className="group_list">
+                      <a className="dropdown-item title" href="#" onClick={this.handleItemClick}>
+                        BILH
+                      </a>
                       <ul>
-                        <li>
-                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDMC</a>
+                        <li className="inner_group">
+                          <a className="dropdown-item inner_title" href="#">Metro Boston Division</a>
+                          <ul>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDMC</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Joslin</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>MAH</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NEBH</a>
+                            </li>
+                          </ul>
+
                         </li>
-                        <li>
-                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Joslin</a>
+                        <li className="inner_group">
+                          <a className="dropdown-item  inner_title" href="#" onClick={this.handleItemClick}>Community Division</a>
+                          <ul>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>AJH</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Exeter</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDM</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDN</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NE</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDP</a>
+                            </li>
+                            <li>
+                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>WH</a>
+                            </li>
+                          </ul>
                         </li>
-                        <li>
-                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>MAH</a>
+                        <li className="inner_group">
+                          <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>LHMC Division</a>
                         </li>
-                        <li>
-                          <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NEBH</a>
+                        <li className="inner_group">
+                          <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>Diversified Services</a>
                         </li>
                       </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-                      </li>
-                      <li className="inner_group">
-                      <a className="dropdown-item  inner_title" href="#" onClick={this.handleItemClick}>Community Division</a>
-                      </li>
-                      <li className="inner_group">
-                      <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>LHMC Division</a>
-                      </li>
-                      <li className="inner_group">
-                      <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>Diversified Services</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
+              {/* System goal dropdown */}
+              <div className="field_container">
+                <label>System Goal:</label>
+                <div className="dropdown">
+                  <button
+                    className="btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {this.state.systemGoalDropdownText}
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
+                        People
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
+                        Quality and Experience
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
+                        Finance and Operations
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
+                        Strategy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* System goal dropdown */}
+              <div className="field_container">
+                <label>Sub Goal:</label>
+                <div className="dropdown">
+                  <button
+                    className="btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {this.state.subGoalDropdownText}
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
+                        Retention, recruitment, development
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
+                        Engagement, culture, communication, well-being
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
+                        Labor efficiency/ productivity
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-
-            {/* System goal dropdown */}
-            <div className="field_container">
-              <label>System Goal:</label>
-              <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {this.state.systemGoalDropdownText}
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                    People
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                    Quality and Experience
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                    Finance and Operations
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                    Strategy
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* System goal dropdown */}
-            <div className="field_container">
-              <label>Sub Goal:</label>
-              <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {this.state.subGoalDropdownText}
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                    Retention, recruitment, development
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                    Engagement, culture, communication, well-being
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                    Labor efficiency/ productivity
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-           </div>
 
             {/* Table View */}
             <table className="value_table">
               <thead>
-                <th>KPI's</th>
-                <th>&nbsp;</th>
-                <th>Actual</th>
-                <th>Target</th>
+                <th style={{ width: '130px', textAlign: 'left' }}>KPI's</th>
+                <th style={{ width: '150px', textAlign: 'center' }}>&nbsp;</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>Actual</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>Target</th>
+                <th>Comments</th>
               </thead>
               <tbody>
                 <tr>
-                  <td>Nursing turnover rate (win 1 yr.)</td>
-                  <td>
-                  <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                 Percentage
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Percentage
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Boolean
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                   Number
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                  <td style={{ width: '130px', textAlign: 'left' }}>Nursing turnover rate (win 1 yr.)</td>
+                  <td style={{ width: '150px', textAlign: 'center' }}>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Percentage
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Percentage
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Boolean
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Number
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                  <td style={{ width: '100px', textAlign: 'center' }}>
+                    <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="ac-1" />
+                        <label htmlFor="ac-1" />
+                      </div>
+                    </span>
+                  </td>
+                  <td style={{ width: '100px', textAlign: 'center' }}>
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="tr-1" />
+                        <label htmlFor="tr-1" />
+                      </div>
+                    </span>
                   </td>
                   <td>
-                    <input type="text" />
-                  </td>
-                  <td>
-                    <input type="text" />
+                    <textarea></textarea>
                   </td>
                 </tr>
+
                 <tr>
                   <td>Allied Health turnover (win 1 yr.)
                   </td>
                   <td>
-                  <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                 Percentage
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Percentage
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Boolean
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                   Number
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Percentage
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Percentage
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Boolean
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Number
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="ac-2" />
+                        <label htmlFor="ac-2" />
+                      </div>
+                    </span>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="tr-2" />
+                        <label htmlFor="tr-2" />
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <textarea></textarea>
                   </td>
                 </tr>
+
+
                 <tr>
                   <td>New Hiring (critical areas.)
                   </td>
                   <td>
-                  <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                 Percentage
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Percentage
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Boolean
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                   Number
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Percentage
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Percentage
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Boolean
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Number
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="ac-3" />
+                        <label htmlFor="ac-3" />
+                      </div>
+                    </span>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="tr-3" />
+                        <label htmlFor="tr-3" />
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <textarea></textarea>
                   </td>
                 </tr>
                 <tr>
                   <td>Rate of URPOC retention in defined roles
                   </td>
                   <td>
-                  <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                 Percentage
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Percentage
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Boolean
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                   Number
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Percentage
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Percentage
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Boolean
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Number
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="ac-4" />
+                        <label htmlFor="ac-4" />
+                      </div>
+                    </span>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="tr-4" />
+                        <label htmlFor="tr-4" />
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <textarea></textarea>
                   </td>
                 </tr>
                 <tr>
                   <td>Volume of trainees in partnership
                   </td>
                   <td>
-                  <div className="dropdown">
-                <button
-                  className="btn dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                 Percentage
-                </button>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Percentage
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                    Boolean
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                   Number
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                    <div className="dropdown">
+                      <button
+                        className="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Percentage
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Percentage
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Boolean
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="#">
+                            Number
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="ac-5" />
+                        <label htmlFor="ac-5" />
+                      </div>
+                    </span>
                   </td>
                   <td>
-                    <input type="text" />
+                  <span className="cell_with_checkbox">
+                      <input type="text" />
+                      <div className="form-group">
+                        <input type="checkbox" id="tr-5" />
+                        <label htmlFor="tr-5" />
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <textarea></textarea>
                   </td>
                 </tr>
               </tbody>
