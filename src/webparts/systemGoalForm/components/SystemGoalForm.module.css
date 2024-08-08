@@ -55,6 +55,7 @@
 }
 .system_goal_container .dropdown {
   flex: 1;
+  min-width: 220px;
 }
 .system_goal_container .dropdown .btn {
   display: flex;

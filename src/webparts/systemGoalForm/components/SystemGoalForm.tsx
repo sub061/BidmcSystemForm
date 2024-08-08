@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
-import type { ISystemGoalFormProps } from "./ISystemGoalFormProps";
+import type { IGoal, IHospital, ISystemGoal, ISystemGoalFormProps } from "./ISystemGoalFormProps";
 import styles from "./SystemGoalForm.module.scss";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,14 +17,14 @@ interface IGridRow {
 }
 
 interface ISystemGoalFormState {
-  systemGoal: string;
-  hospital: string;
+  systemGoal: ISystemGoal[];
   goals: string[];
-  subGoal: string;
+  subGoal: IGoal[];
+  hospital: IHospital[];
   grid: IGridRow[];
   dropdownText: string;
-  systemGoalDropdownText: string;
-  subGoalDropdownText: string;
+  systemGoalDropdown: any;
+  subGoalDropdown: any;
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -34,10 +34,10 @@ export default class SystemGoalForm extends React.Component<
   constructor(props: ISystemGoalFormProps) {
     super(props);
     this.state = {
-      systemGoal: "bilh",
-      hospital: "AJH",
+      systemGoal: props.getSystemGoal || null,
+      hospital: props.getHospital || null,
       goals: [],
-      subGoal: "Retention",
+      subGoal: props.getGoal || null,
       grid: [
         {
           hospital: "AJH",
@@ -47,31 +47,35 @@ export default class SystemGoalForm extends React.Component<
         },
       ],
       dropdownText: 'Choose Hospital',
-      systemGoalDropdownText: 'Choose System Goal',
-      subGoalDropdownText: 'Choose Sub Goal'
+      systemGoalDropdown: { text: 'Choose Goal', id: 0 },
+      subGoalDropdown: {
+        text: 'Choose Sub Goal',
+        goalId: 0
+      }
     };
 
     this.handleItemClick = this.handleItemClick.bind(this);
     this.systemGoalClick = this.systemGoalClick.bind(this);
     this.subGoalClick = this.subGoalClick.bind(this);
   }
-  handleItemClick(event: any) {
+
+  handleItemClick(value: string) {
     this.setState({
-      dropdownText: event.target.textContent
+      dropdownText: value
     });
   }
-  systemGoalClick(event: any) {
+  systemGoalClick(value: any) {
     this.setState({
-      systemGoalDropdownText: event.target.textContent
-    });
-  }
-  subGoalClick(event: any) {
-    this.setState({
-      subGoalDropdownText: event.target.textContent
+      systemGoalDropdown: { text: value.Title, id: value.Id }
     });
   }
 
-
+  subGoalClick(value: any): void {
+    console.log("ssssssssssssssss", value)
+    this.setState({
+      subGoalDropdown: { text: value.Title, goalId: value.Id }
+    });
+  }
 
   handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -154,139 +158,48 @@ export default class SystemGoalForm extends React.Component<
   };
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
+
+    const { hospital } = this.state;
+
+    const headings = hospital.reduce((acc, item) => {
+      if (item.DivisionId === null) {
+        acc[item.Id] = { heading: item, subItems: [] };
+      }
+      return acc;
+    }, {} as Record<number, { heading: any | null; subItems: any[] }>);
+
+    const systemGoalGroupData = hospital.reduce((acc, item) => {
+      if (item.DivisionId !== null) {
+        const parent = acc[item.DivisionId];
+        if (parent) {
+          parent.subItems.push(item);
+        } else {
+          console.log(`No heading found for item with ID ${item.Id} and DivisionId ${item.DivisionId}`);
+        }
+      }
+      return acc;
+    }, headings);
+
+    const setSubGoals = this.state.subGoal.filter((item: any) => item.GoalId === this.state.systemGoalDropdown.id)
+    console.log("New Sub Goals aaaaaaaaa --->", setSubGoals)
+
+
+
     return (
-      // <form onSubmit={this.handleSubmit}>
-      //   <label htmlFor="systemGoal">System Goal:</label>
-      //   <select
-      //     id="systemGoal"
-      //     name="systemGoal"
-      //     value={this.state.systemGoal}
-      //     onChange={this.handleChange}
-      //   >
-      //     <option value="bilh">BILH</option>
-      //   </select>
-      //   <br />
-      //   <br />
-
-      //   <label htmlFor="hospital">Hospital:</label>
-      //   <select
-      //     id="hospital"
-      //     name="hospital"
-      //     value={this.state.hospital}
-      //     onChange={this.handleChange}
-      //   >
-      //     <option value="AJH">AJH</option>
-      //     <option value="BIDMC">BIDMC</option>
-      //   </select>
-      //   <br />
-      //   <br />
-
-      //   <label htmlFor="goals">Goal:</label>
-      //   <select
-      //     id="goals"
-      //     name="goals"
-      //     multiple
-      //     value={this.state.goals}
-      //     onChange={this.handleChange}
-      //   >
-      //     <option value="People">People</option>
-      //     <option value="Quality">Quality</option>
-      //     <option value="Experience">Experience</option>
-      //   </select>
-      //   <br />
-      //   <br />
-
-      //   <label htmlFor="subGoal">Sub Goal:</label>
-      //   <select
-      //     id="subGoal"
-      //     name="subGoal"
-      //     value={this.state.subGoal}
-      //     onChange={this.handleChange}
-      //   >
-      //     <option value="Retention">Retention</option>
-      //     <option value="Throughput">Throughput</option>
-      //     <option value="Access">Access</option>
-      //   </select>
-      //   <br />
-      //   <br />
-
-      //   <div id="gridContainer">
-      //     <table>
-      //       <thead>
-      //         <tr>
-      //           <th>Hospital</th>
-      //           <th>Actual</th>
-      //           <th>Target</th>
-      //           <th>Details</th>
-      //         </tr>
-      //       </thead>
-      //       <tbody>
-      //         {this.state.grid.map((row, index) => (
-      //           <tr key={index}>
-      //             <td>
-      //               <select
-      //                 name="hospital"
-      //                 value={row.hospital}
-      //                 onChange={(e) => this.handleGridChange(index, e)}
-      //               >
-      //                 <option value="AJH">AJH</option>
-      //                 <option value="BIDMC">BIDMC</option>
-      //               </select>
-      //             </td>
-      //             <td>
-      //               <input
-      //                 type="text"
-      //                 name="actual"
-      //                 value={row.actual}
-      //                 onChange={(e) => this.handleGridChange(index, e)}
-      //               />
-      //             </td>
-      //             <td>
-      //               <input
-      //                 type="text"
-      //                 name="target"
-      //                 value={row.target}
-      //                 onChange={(e) => this.handleGridChange(index, e)}
-      //               />
-      //             </td>
-      //             <td>
-      //               <input
-      //                 type="text"
-      //                 name="details"
-      //                 value={row.details}
-      //                 onChange={(e) => this.handleGridChange(index, e)}
-      //               />
-      //             </td>
-      //           </tr>
-      //         ))}
-      //       </tbody>
-      //     </table>
-      //   </div>
-      //   <br />
-
-      //   <button type="button" onClick={this.addRow}>
-      //     Add Row
-      //   </button>
-      //   <br />
-      //   <br />
-
-      //   <input type="submit" value="Submit" />
-      // </form>
-
       <>
         <span className={`${styles.dummy}`}></span>
 
         <div className="system_goal_container">
-        <div
-          style={{
-            width: "100%",
-            fontSize: "36px",
-            textAlign: "center",
-            marginBottom: "32px",
-          }}
-        >
-          BILH Operating Model
-        </div>
+          <div
+            style={{
+              width: "100%",
+              fontSize: "36px",
+              textAlign: "center",
+              marginBottom: "32px",
+            }}
+          >
+            BILH Operating Model
+          </div>
           <h3>
             <span>System Goals 2025</span>
           </h3>
@@ -305,60 +218,33 @@ export default class SystemGoalForm extends React.Component<
                   </button>
                   <ul className="dropdown-menu">
                     <li className="group_list">
-                      <a className="dropdown-item title" href="#" onClick={this.handleItemClick}>
+                      <a className="dropdown-item title" href="#" onClick={() => this.handleItemClick("BILH")}>
                         BILH
                       </a>
                       <ul>
-                        <li className="inner_group">
-                          <a className="dropdown-item inner_title" href="#">Metro Boston Division</a>
-                          <ul>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDMC</a>
+                        {/*eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        {Object.values(systemGoalGroupData).map((group: any, index: number) => (
+                          group.heading && (
+                            <li key={group.heading.id} className="inner_group">
+                              <a className="dropdown-item inner_title" href="#">
+                                {group.heading.Title}
+                              </a>
+                              <ul>
+                                {group.subItems.map((subItem: any) => (
+                                  <li key={subItem.id}>
+                                    <a
+                                      className="dropdown-item"
+                                      href="#"
+                                      onClick={() => this.handleItemClick(subItem.Title)}
+                                    >
+                                      {subItem.Title}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
                             </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Joslin</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>MAH</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NEBH</a>
-                            </li>
-                          </ul>
-
-                        </li>
-                        <li className="inner_group">
-                          <a className="dropdown-item  inner_title" href="#" onClick={this.handleItemClick}>Community Division</a>
-                          <ul>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>AJH</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>Exeter</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDM</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDN</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>NE</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>BIDP</a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#" onClick={this.handleItemClick}>WH</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li className="inner_group">
-                          <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>LHMC Division</a>
-                        </li>
-                        <li className="inner_group">
-                          <a className="dropdown-item inner_title" href="#" onClick={this.handleItemClick}>Diversified Services</a>
-                        </li>
+                          )
+                        ))}
                       </ul>
                     </li>
                   </ul>
@@ -367,7 +253,7 @@ export default class SystemGoalForm extends React.Component<
 
               {/* System goal dropdown */}
               <div className="field_container">
-                <label>System Goal:</label>
+                <label>Goal:</label>
                 <div className="dropdown">
                   <button
                     className="btn dropdown-toggle"
@@ -375,34 +261,25 @@ export default class SystemGoalForm extends React.Component<
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {this.state.systemGoalDropdownText}
+                    {this.state.systemGoalDropdown.text}
                   </button>
                   <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                        People
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                        Quality and Experience
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                        Finance and Operations
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.systemGoalClick}>
-                        Strategy
-                      </a>
-                    </li>
+                    {this.state.systemGoal.map((goal, index) => (
+                      <li key={index}>
+                        <a
+                          className="dropdown-item"
+                          href="#"
+                          onClick={() => this.systemGoalClick(goal)}
+                        >
+                          {goal.Title}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
 
-              {/* System goal dropdown */}
+              {/* Sub goal dropdown */}
               <div className="field_container">
                 <label>Sub Goal:</label>
                 <div className="dropdown">
@@ -412,27 +289,33 @@ export default class SystemGoalForm extends React.Component<
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {this.state.subGoalDropdownText}
+                    {this.state.subGoalDropdown.text}
                   </button>
                   <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                        Retention, recruitment, development
+                    {setSubGoals.length > 0 ? setSubGoals.map((goal, index) => (
+                      <li key={index}>
+                        <a
+                          className="dropdown-item"
+                          href="#"
+                          onClick={() => this.subGoalClick(goal)}
+                        >
+                          {goal.Title}
+                        </a>
+                      </li>
+                    )) : <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                      >
+                        Select Goal First
                       </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                        Engagement, culture, communication, well-being
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#" onClick={this.subGoalClick}>
-                        Labor efficiency/ productivity
-                      </a>
-                    </li>
+                    </li>}
                   </ul>
                 </div>
               </div>
+              <div className="btn_container_footer justify-content-start">
+              <button className="active">Apply</button>
+            </div>
             </div>
 
             {/* Table View */}
@@ -486,7 +369,7 @@ export default class SystemGoalForm extends React.Component<
                     </span>
                   </td>
                   <td style={{ width: '150px', textAlign: 'center' }}>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="tr-1" />
@@ -532,7 +415,7 @@ export default class SystemGoalForm extends React.Component<
                     </div>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="ac-2" />
@@ -541,7 +424,7 @@ export default class SystemGoalForm extends React.Component<
                     </span>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="tr-2" />
@@ -588,7 +471,7 @@ export default class SystemGoalForm extends React.Component<
                     </div>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="ac-3" />
@@ -597,7 +480,7 @@ export default class SystemGoalForm extends React.Component<
                     </span>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="tr-3" />
@@ -642,7 +525,7 @@ export default class SystemGoalForm extends React.Component<
                     </div>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="ac-4" />
@@ -651,7 +534,7 @@ export default class SystemGoalForm extends React.Component<
                     </span>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="tr-4" />
@@ -696,7 +579,7 @@ export default class SystemGoalForm extends React.Component<
                     </div>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="ac-5" />
@@ -705,7 +588,7 @@ export default class SystemGoalForm extends React.Component<
                     </span>
                   </td>
                   <td>
-                  <span className="cell_with_checkbox">
+                    <span className="cell_with_checkbox">
                       <input type="text" />
                       <div className="form-group">
                         <input type="checkbox" id="tr-5" />
@@ -723,8 +606,8 @@ export default class SystemGoalForm extends React.Component<
             <div className="btn_container_footer">
               <button className="active">Reset</button> <button>Save</button>
             </div>
-          </form>
-        </div>
+          </form >
+        </div >
       </>
     );
   }
