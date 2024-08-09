@@ -35,7 +35,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-
+    console.log("Sub Goal --->", data.value);
     return data.value;
   }
 
@@ -48,6 +48,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
+    console.log("Hospital --->", data.value);
     return data.value;
   }
   // Get List for System Goal
@@ -58,7 +59,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-
+    console.log("Sytem Goal --->", data.value);
     return data.value;
   }
 

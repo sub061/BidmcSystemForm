@@ -226,7 +226,7 @@ export default class SystemGoalForm extends React.Component<
                         {Object.values(systemGoalGroupData).map((group: any, index: number) => (
                           group.heading && (
                             <li key={group.heading.id} className="inner_group">
-                              <a className="dropdown-item inner_title" href="#">
+                              <a className="dropdown-item inner_title" href="#" onClick={() => this.handleItemClick(group.heading.Title)}>
                                 {group.heading.Title}
                               </a>
                               <ul>
@@ -314,12 +314,12 @@ export default class SystemGoalForm extends React.Component<
                 </div>
               </div>
               <div className="btn_container_footer justify-content-start">
-              <button className="active">Apply</button>
-            </div>
-            </div>
+                <button className="active">Apply</button>
+              </div>
+            </div >
 
             {/* Table View */}
-            <table className="value_table">
+            < table className="value_table" >
               <thead>
                 <th style={{ width: '320px', textAlign: 'left' }}>KPI's</th>
                 <th style={{ width: '150px', textAlign: 'center' }}>&nbsp;</th>
@@ -601,7 +601,7 @@ export default class SystemGoalForm extends React.Component<
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table >
 
             <div className="btn_container_footer">
               <button className="active">Reset</button> <button>Save</button>
