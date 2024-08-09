@@ -141,6 +141,9 @@
   justify-content: center;
   gap: 8px;
 }
+.system_goal_container .value_table .dropdown {
+  min-width: 100%;
+}
 .system_goal_container .value_table .dropdown .btn {
   min-width: 130px;
 }

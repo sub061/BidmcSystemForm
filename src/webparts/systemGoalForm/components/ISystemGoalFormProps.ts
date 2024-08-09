@@ -7,6 +7,8 @@ export interface ISystemGoalFormProps {
   getGoal: IGoal[];
   getHospital: IHospital[];
   getSystemGoal: ISystemGoal[];
+  getGoalMetrix: IGoalMetrix[];
+  getKPI: any;
 }
 
 export interface IGoal {
@@ -34,6 +36,21 @@ export interface IDivision {
 
 export interface ISystemGoal {
   [x: string]: any;
+  Id: number;
+  Title: string;
+}
+
+export interface IGoalMetrix {
+  SystemGoalId: number;
+  GoalId: number;
+  SubGoalId: number;
+  KPIId: number;
+  HospitalId: number;
+  Actual: string;
+  Target: string;
+}
+
+export interface IKPI {
   Id: number;
   Title: string;
 }

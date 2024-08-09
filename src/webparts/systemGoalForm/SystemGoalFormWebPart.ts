@@ -12,7 +12,9 @@ import * as strings from "SystemGoalFormWebPartStrings";
 import SystemGoalForm from "./components/SystemGoalForm";
 import {
   IGoal,
+  IGoalMetrix,
   IHospital,
+  IKPI,
   ISystemGoal,
   ISystemGoalFormProps,
 } from "./components/ISystemGoalFormProps";
@@ -26,6 +28,30 @@ export interface ISystemGoalFormWebPartProps {
 export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystemGoalFormWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
+
+  // Get List for KPI Tilte
+  public async getKPIConfiguration(): Promise<IKPI[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('KPI')/Items`;
+    const response: SPHttpClientResponse = await this.context.spHttpClient.get(
+      requestUrl,
+      SPHttpClient.configurations.v1
+    );
+    const data = await response.json();
+    console.log("KPI Data --->", data);
+    return data.value;
+  }
+
+  // Get List for metrix
+  public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Metrix')/Items`;
+    const response: SPHttpClientResponse = await this.context.spHttpClient.get(
+      requestUrl,
+      SPHttpClient.configurations.v1
+    );
+    const data = await response.json();
+    console.log("Metric Data:", data);
+    return data.value;
+  }
 
   // List For Sub Goals
   public async getGoalConfiguration(): Promise<IGoal[]> {
@@ -42,13 +68,11 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   //List For Hospitals
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Hospital')/Items`;
-    console.log("Fetching hospital data from:", requestUrl);
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(
       requestUrl,
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-    console.log("Hospital --->", data.value);
     return data.value;
   }
   // Get List for System Goal
@@ -66,6 +90,8 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   public async render(): Promise<void> {
     if (this.domElement) {
       try {
+        const getKPI = await this.getKPIConfiguration();
+        const getGoalMetrix = await this.getGoalMetrixConfiguration();
         const getHospital = await this.getHospitalConfiguration();
         const getSystemGoal = await this.getSytemGoalConfiguration();
         const getGoal = await this.getGoalConfiguration();
@@ -80,6 +106,8 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             getGoal: getGoal,
             getHospital: getHospital,
             getSystemGoal: getSystemGoal,
+            getGoalMetrix: getGoalMetrix,
+            getKPI: getKPI,
           });
 
         ReactDom.render(element, this.domElement);
