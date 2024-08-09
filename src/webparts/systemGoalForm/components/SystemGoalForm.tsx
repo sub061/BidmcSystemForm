@@ -1,5 +1,4 @@
 import * as React from "react";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import type { IGoal, IGoalMetrix, IHospital, ISystemGoal, ISystemGoalFormProps } from "./ISystemGoalFormProps";
 import styles from "./SystemGoalForm.module.scss";
 
@@ -131,33 +130,21 @@ export default class SystemGoalForm extends React.Component<
       };
     });
     const itemBody = {
-      Metrix: JSON.stringify(updatedData)
+      Metrix: updatedData
     }
     console.log('Payload ----->:', updatedData);
 
     try {
-      const response: SPHttpClientResponse =
-        await this.context.spHttpClient.post(
-          this.state.apiUrl,
-          SPHttpClient.configurations.v1,
-          {
-            headers: {
-              Accept: "application/json;odata=verbose",
-              "Content-type": "application/json;odata=verbose",
-              "odata-version": "",
-            },
-            body: JSON.stringify(itemBody),
-          }
-        );
-      console.log("Api Response --->", response);
-
-      if (response.ok) {
-        console.log("Form submitted successfully");
-      } else {
-        console.error("Error submitting form", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error submitting form", error);
+      const response = await fetch(this.state.apiUrl, {
+        method: 'POST',
+        body: JSON.stringify(itemBody),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log(response)
+    } catch (e) {
+      console.log("Error occured", e)
     }
 
   };
