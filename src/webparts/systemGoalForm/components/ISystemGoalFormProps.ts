@@ -9,6 +9,7 @@ export interface ISystemGoalFormProps {
   getSystemGoal: ISystemGoal[];
   getGoalMetrix: IGoalMetrix[];
   getKPI: any;
+  apiUrl: string;
 }
 
 export interface IGoal {
@@ -48,6 +49,8 @@ export interface IGoalMetrix {
   HospitalId: number;
   Actual: string;
   Target: string;
+  ActualVerify: boolean;
+  TargetVerified: boolean;
 }
 
 export interface IKPI {

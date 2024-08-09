@@ -26,7 +26,9 @@ interface ISystemGoalFormState {
   hospitalDropdwon: any;
   systemGoalDropdown: any;
   subGoalDropdown: any;
-  kpiData: any
+  kpiData: any;
+  updatedFields: any;
+  apiUrl: string
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -42,6 +44,8 @@ export default class SystemGoalForm extends React.Component<
       subGoal: props.getGoal || null,
       goalMetrix: props.getGoalMetrix || null,
       kpiData: props.getKPI || null,
+      updatedFields: {},
+      apiUrl: props.apiUrl,
       grid: [
         {
           hospital: "AJH",
@@ -112,43 +116,29 @@ export default class SystemGoalForm extends React.Component<
     }
   };
 
-  handleGridChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    const grid = [...this.state.grid];
-    grid[index][name as keyof IGridRow] = value;
-    this.setState({ grid });
-  };
 
-  addRow = () => {
-    this.setState((prevState) => ({
-      grid: [
-        ...prevState.grid,
-        { hospital: "AJH", actual: "", target: "", details: "" },
-      ],
-    }));
-  };
+  private handleSubmit = async () => {
+    const { updatedFields, goalMetrix } = this.state;
+    console.log("Submit called ---->", updatedFields);
 
-  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+    // Filter the goalMetrix data to include only items that have been updated
+    const updatedData: any = Object.keys(updatedFields).map(index => {
+      const originalItem = goalMetrix[parseInt(index)]; // Get the original item
+      const updatedItem = updatedFields[index]; // Get the updated fields for this item
+      return {
+        ...originalItem,
+        ...updatedItem,
+      };
+    });
     const itemBody = {
-      Title: "System Goal Form Submission", // Adjust based on your list fields
-      SystemGoal: this.state.systemGoal,
-      Hospital: this.state.hospital,
-      Goals: this.state.goals.join(";"), // Assuming Goals is a multi-choice field
-      SubGoal: this.state.subGoal,
-      Grid: JSON.stringify(this.state.grid), // You may need to handle this differently based on your list structure
-    };
+      Metrix: JSON.stringify(updatedData)
+    }
+    console.log('Payload ----->:', updatedData);
 
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Goal Metrix')/items`;
-    console.log("url", requestUrl);
     try {
       const response: SPHttpClientResponse =
         await this.context.spHttpClient.post(
-          requestUrl,
+          this.state.apiUrl,
           SPHttpClient.configurations.v1,
           {
             headers: {
@@ -159,6 +149,7 @@ export default class SystemGoalForm extends React.Component<
             body: JSON.stringify(itemBody),
           }
         );
+      console.log("Api Response --->", response);
 
       if (response.ok) {
         console.log("Form submitted successfully");
@@ -168,7 +159,9 @@ export default class SystemGoalForm extends React.Component<
     } catch (error) {
       console.error("Error submitting form", error);
     }
+
   };
+
 
   // Get KPI Title
   private getKPITitle = (KpiId: number) => {
@@ -191,9 +184,27 @@ export default class SystemGoalForm extends React.Component<
     this.setState({
       hospitalDropdwon: { text: 'Choose Hospital', hospitalId: null },
       subGoalDropdown: { text: 'Choose Sub Goal', goalId: null },
-      systemGoalDropdown: { text: 'Choose Goal', id: null }
+      systemGoalDropdown: { text: 'Choose Goal', id: null },
+      updatedFields: {}
     });
   }
+
+  private handleInputChange = (index: number, field: string, value: any) => {
+    const updatedFields = { ...this.state.updatedFields };
+
+    // If the index is not in updatedFields, initialize it
+    if (!updatedFields[index]) {
+      updatedFields[index] = {};
+    }
+
+    // Update the specific field for the index
+    updatedFields[index][field] = value;
+
+    // Update the state
+    this.setState({
+      updatedFields,
+    });
+  };
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
 
@@ -239,7 +250,7 @@ export default class SystemGoalForm extends React.Component<
           <h3>
             <span>System Goals 2025</span>
           </h3>
-          <form onSubmit={this.handleSubmit}>
+          <form>
             <div className="filter_container">
               <div className="field_container">
                 <label>Hospitals:</label>
@@ -361,65 +372,66 @@ export default class SystemGoalForm extends React.Component<
                 <th>Comments</th>
               </thead>
               <tbody>
-                {this.getFilteredMetrixData().length > 0 ? this.getFilteredMetrixData().map((item: any, index: number) => (
+                {this.getFilteredMetrixData().length > 0 ? this.getFilteredMetrixData().map((item, index) => (
                   <tr key={index}>
                     <td style={{ width: '320px', textAlign: 'left' }}>{this.getKPITitle(item.KPIId)}</td>
                     <td style={{ width: '150px', textAlign: 'center' }}>
                       <div className="dropdown">
-                        <button
-                          className="btn dropdown-toggle"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
+                        <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Percentage
                         </button>
                         <ul className="dropdown-menu">
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Percentage
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Boolean
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="#">
-                              Number
-                            </a>
-                          </li>
+                          <li><a className="dropdown-item" href="#">Percentage</a></li>
+                          <li><a className="dropdown-item" href="#">Boolean</a></li>
+                          <li><a className="dropdown-item" href="#">Number</a></li>
                         </ul>
                       </div>
                     </td>
                     <td style={{ width: '150px', textAlign: 'center' }}>
                       <span className="cell_with_checkbox">
-                        <input type="text" defaultValue={item.Actual} />
+                        <input
+                          type="text"
+                          defaultValue={item.Actual}
+                          onChange={(e) => this.handleInputChange(index, 'Actual', e.target.value)}
+                        />
                         <div className="form-group">
-                          <input type="checkbox" id={`ac-${index}`} defaultChecked={item.ActualVerify || false} />
+                          <input
+                            type="checkbox"
+                            id={`ac-${index}`}
+                            defaultChecked={item.ActualVerify || false}
+                            onChange={(e) => this.handleInputChange(index, 'ActualVerify', e.target.checked)}
+                          />
                           <label htmlFor={`ac-${index}`} />
                         </div>
                       </span>
                     </td>
                     <td style={{ width: '150px', textAlign: 'center' }}>
                       <span className="cell_with_checkbox">
-                        <input type="text" defaultValue={item.Target || ''} />
+                        <input
+                          type="text"
+                          defaultValue={item.Target || ''}
+                          onChange={(e) => this.handleInputChange(index, 'Target', e.target.value)}
+                        />
                         <div className="form-group">
-                          <input type="checkbox" id={`tr-${index}`} defaultChecked={item.TargetVerified || false} />
+                          <input
+                            type="checkbox"
+                            id={`tr-${index}`}
+                            defaultChecked={item.TargetVerified || false}
+                            onChange={(e) => this.handleInputChange(index, 'TargetVerified', e.target.checked)}
+                          />
                           <label htmlFor={`tr-${index}`} />
                         </div>
                       </span>
                     </td>
                     <td>
-                      <textarea></textarea>
+                      <textarea onChange={(e) => this.handleInputChange(index, 'Comments', e.target.value)} />
                     </td>
                   </tr>
-                )) : <tr>No Kpis to show</tr>}
+                )) : <tr><td colSpan={5}>No KPIs to show</td></tr>}
               </tbody>
             </table >
             <div className="btn_container_footer">
-              <button className="active" onClick={() => this.resetFilter()}>Reset</button> <button>Save</button>
+              <button className="active" onClick={() => this.resetFilter()}>Reset</button> <button onClick={() => this.handleSubmit()}>Save</button>
             </div>
           </form >
         </div >

@@ -108,6 +108,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             getSystemGoal: getSystemGoal,
             getGoalMetrix: getGoalMetrix,
             getKPI: getKPI,
+            apiUrl: `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Metrix')/items`,
           });
 
         ReactDom.render(element, this.domElement);
