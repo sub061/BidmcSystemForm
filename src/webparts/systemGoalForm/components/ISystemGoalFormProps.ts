@@ -1,4 +1,5 @@
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface ISystemGoalFormProps {
   description: string;
@@ -12,7 +13,8 @@ export interface ISystemGoalFormProps {
   getGoalMetrix: IGoalMetrix[];
   getKPI: any;
   apiUrl: string;
-  context: any;
+   websiteUrl: string;
+  context: WebPartContext;
 }
 
 export interface IGoal {
@@ -82,6 +84,20 @@ export const postUpdateData = async ({
     };
 
     console.log("Payload ----->:", itemBody);
+    const databody = {
+      "__metadata": {
+    "type": "#SP.ListData.MetrixListItems"  // Use the correct type name
+  },
+      // "@odata.type": "#SP.Data.MetrixListItem",
+      // "@odata.id": "b232ae36-c7a7-4ec7-aab0-ed2cd731d7cd",
+      // "@odata.etag":"4",
+      "ActualVerify": true,
+"ID": 4,
+"Id": 4,
+"Target": "40058",
+"DivisionId":1,
+"Actual":"8.6",
+"TargetVerified":true }
 
     const response: SPHttpClientResponse = await context.spHttpClient.post(
       apiUrl,
@@ -92,7 +108,7 @@ export const postUpdateData = async ({
           "Content-type": "application/json;odata=verbose",
           "odata-version": "",
         },
-        body: JSON.stringify(itemBody),
+        body: JSON.stringify(databody),
       }
     );
 
