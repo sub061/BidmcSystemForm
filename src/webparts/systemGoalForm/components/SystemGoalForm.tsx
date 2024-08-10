@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { IGoal, IGoalMetrix, IHospital, ISystemGoal, ISystemGoalFormProps } from "./ISystemGoalFormProps";
+import { postUpdateData, type IGoal, type IGoalMetrix, type IHospital, type ISystemGoal, type ISystemGoalFormProps } from "./ISystemGoalFormProps";
 import styles from "./SystemGoalForm.module.scss";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,7 +27,8 @@ interface ISystemGoalFormState {
   subGoalDropdown: any;
   kpiData: any;
   updatedFields: any;
-  apiUrl: string
+  apiUrl: string;
+  context: any
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -45,6 +46,7 @@ export default class SystemGoalForm extends React.Component<
       kpiData: props.getKPI || null,
       updatedFields: {},
       apiUrl: props.apiUrl,
+      context: props.context,
       grid: [
         {
           hospital: "AJH",
@@ -116,36 +118,47 @@ export default class SystemGoalForm extends React.Component<
   };
 
 
-  private handleSubmit = async () => {
-    const { updatedFields, goalMetrix } = this.state;
+  private handleSubmit = async (e: any) => {
+    e.preventDefault()
+    const { updatedFields, goalMetrix, apiUrl, context } = this.state;
     console.log("Submit called ---->", updatedFields);
 
-    // Filter the goalMetrix data to include only items that have been updated
-    const updatedData: any = Object.keys(updatedFields).map(index => {
-      const originalItem = goalMetrix[parseInt(index)]; // Get the original item
-      const updatedItem = updatedFields[index]; // Get the updated fields for this item
-      return {
-        ...originalItem,
-        ...updatedItem,
-      };
-    });
-    const itemBody = {
-      Metrix: updatedData
-    }
-    console.log('Payload ----->:', updatedData);
 
-    try {
-      const response = await fetch(this.state.apiUrl, {
-        method: 'POST',
-        body: JSON.stringify(itemBody),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(response)
-    } catch (e) {
-      console.log("Error occured", e)
-    }
+    // Call the postUpdateData function from the API service
+    await postUpdateData({
+      context,
+      apiUrl,
+      updatedFields,
+      goalMetrix
+    });
+
+
+    // // Filter the goalMetrix data to include only items that have been updated
+    // const updatedData: any = Object.keys(updatedFields).map(index => {
+    //   const originalItem = goalMetrix[parseInt(index)]; // Get the original item
+    //   const updatedItem = updatedFields[index]; // Get the updated fields for this item
+    //   return {
+    //     ...originalItem,
+    //     ...updatedItem,
+    //   };
+    // });
+    // const itemBody = {
+    //   Metrix: updatedData
+    // }
+    // console.log('Payload ----->:', updatedData);
+
+    // try {
+    //   const response = await fetch(this.state.apiUrl, {
+    //     method: 'POST',
+    //     body: JSON.stringify(itemBody),
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+    //   console.log(response)
+    // } catch (e) {
+    //   console.log("Error occured", e)
+    // }
 
   };
 
@@ -217,7 +230,8 @@ export default class SystemGoalForm extends React.Component<
     }, headings);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const setSubGoals = this.state.subGoal.filter((item: any) => item.GoalId === this.state.systemGoalDropdown.id)
+    const setSubGoals = this.state.subGoal.filter((item: any) => item.GoalId === this.state.systemGoalDropdown.id);
+    console.log("Shubham---------------", this.state.context)
 
     return (
       <>
@@ -418,7 +432,7 @@ export default class SystemGoalForm extends React.Component<
               </tbody>
             </table >
             <div className="btn_container_footer">
-              <button className="active" onClick={() => this.resetFilter()}>Reset</button> <button onClick={() => this.handleSubmit()}>Save</button>
+              <button className="active" onClick={() => this.resetFilter()}>Reset</button> <button onClick={(e) => this.handleSubmit(e)}>Save</button>
             </div>
           </form >
         </div >
