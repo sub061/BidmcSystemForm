@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
- // postUpdateData,
   type IGoal,
   type IGoalMetrix,
   type IHospital,
@@ -11,7 +10,6 @@ import styles from "./SystemGoalForm.module.scss";
 import { getSP, SPFI } from "../../../pnpjsConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 // Define interface for GridRow and SystemGoalFormState
@@ -77,38 +75,69 @@ export default class SystemGoalForm extends React.Component<
     this.subGoalClick = this.subGoalClick.bind(this);
     this.getFilteredMetrixData = this.getFilteredMetrixData.bind(this);
   }
-  editListItem = async () => {
-    // Get a reference to the SharePoint list named "Quotes"
+
+  private resetFilter = () => {
+    this.setState({
+      hospitalDropdwon: { text: "Choose Hospital", hospitalId: null },
+      subGoalDropdown: { text: "Choose Sub Goal", goalId: null },
+      systemGoalDropdown: { text: "Choose Goal", id: null },
+      updatedFields: {},
+    });
+  };
+
+  private handleInputChange = (id: number, index: number, field: string, value: any) => {
+    const updatedFields = { ...this.state.updatedFields };
+
+    // If the index is not in updatedFields, initialize it
+    if (!updatedFields[index]) {
+      updatedFields[index] = { Id: id }; // Initialize with Id
+    }
+
+    // Update the specific field for the index
+    updatedFields[index][field] = value;
+
+    // Update the state
+    this.setState({
+      updatedFields,
+    });
+  };
+
+  private editListItem = async () => {
+    const { updatedFields } = this.state;
+    // Prepare the updated data by using the Id from updatedFields
+    const updatedData: any = Object.keys(updatedFields).map((index) => {
+      const { Id, ...updatedItem } = updatedFields[index]; // Extract Id from updatedFields
+      return {
+        Id,
+        ...updatedItem,
+      };
+    });
     const list = this.state._sp.web.lists.getByTitle("Metrix");
+
     try {
-      // Update the list item with the currentId using the provided values
-      await list.items.getById(4).update({
-        Target: "45654",
-      });
-      // Close the edit modal/dialog
-
-      // Trigger a reload by toggling the 'reload' state variable
-
-      // Log a message to indicate that the list item has been successfully edited
-      console.log("List item edited");
+      // Iterate over updated data to update each item individually
+      for (let i = 0; i < updatedData.length; i++) {
+        const data = updatedData[i];
+        const { Id, ...fieldsToUpdate } = data;
+        await list.items.getById(Id).update(fieldsToUpdate);
+      }
     } catch (e) {
-      // Log any errors that occur during the update process
-      console.log(e);
-    } finally {
-      // Ensure that the edit modal/dialog is closed, even in case of an error
+      console.error("Error updating list item", e);
     }
   };
+
+
 
   handleItemClick(value: any) {
     console.log("Hospital dropDown data --------->", value);
     this.setState({
       hospitalDropdwon: { text: value.Title, hospitalId: value.Id },
+      subGoalDropdown: { text: "Choose Sub Goal", goalId: null },
+      systemGoalDropdown: { text: "Choose Goal", id: null },
     });
   }
 
   systemGoalClick(value: any) {
-    console.log("System Dropdwon data --------->", value);
-
     this.setState({
       systemGoalDropdown: { text: value.Title, id: value.Id },
       subGoalDropdown: {
@@ -119,47 +148,10 @@ export default class SystemGoalForm extends React.Component<
   }
 
   subGoalClick(value: any): void {
-    console.log("Sub Goal Dropdown data --------->", value);
     this.setState({
       subGoalDropdown: { text: value.Title, goalId: value.Id },
     });
   }
-
-  handleChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
-    const { name, value, type, selectedOptions } =
-      e.target as HTMLSelectElement & HTMLInputElement;
-    if (type === "select-multiple") {
-      const values = Array.from(
-        selectedOptions,
-        (option: HTMLOptionElement) => option.value
-      );
-      this.setState({ [name]: values } as unknown as Pick<
-        ISystemGoalFormState,
-        keyof ISystemGoalFormState
-      >);
-    } else {
-      this.setState({ [name]: value } as unknown as Pick<
-        ISystemGoalFormState,
-        keyof ISystemGoalFormState
-      >);
-    }
-  };
-
-  // private handleSubmit = async (e: any) => {
-  //   e.preventDefault();
-  //   const { updatedFields, goalMetrix, apiUrl, context } = this.state;
-  //   console.log("Submit called ---->", updatedFields);
-
-  //   // Call the postUpdateData function from the API service
-  //   await postUpdateData({
-  //     context,
-  //     apiUrl,
-  //     updatedFields,
-  //     goalMetrix,
-  //   });
-  // };
 
   // Get KPI Title
   private getKPITitle = (KpiId: number) => {
@@ -170,7 +162,6 @@ export default class SystemGoalForm extends React.Component<
   };
 
   private getFilteredMetrixData() {
-    console.log("State ----->", this.state);
     if (
       this.state.systemGoalDropdown.id === null &&
       !this.state.subGoalDropdown.goalId === null &&
@@ -186,32 +177,6 @@ export default class SystemGoalForm extends React.Component<
     console.log("Filtered Metri data", metrixData);
     return metrixData;
   }
-
-  private resetFilter = () => {
-    this.setState({
-      hospitalDropdwon: { text: "Choose Hospital", hospitalId: null },
-      subGoalDropdown: { text: "Choose Sub Goal", goalId: null },
-      systemGoalDropdown: { text: "Choose Goal", id: null },
-      updatedFields: {},
-    });
-  };
-
-  private handleInputChange = (index: number, field: string, value: any) => {
-    const updatedFields = { ...this.state.updatedFields };
-
-    // If the index is not in updatedFields, initialize it
-    if (!updatedFields[index]) {
-      updatedFields[index] = {};
-    }
-
-    // Update the specific field for the index
-    updatedFields[index][field] = value;
-
-    // Update the state
-    this.setState({
-      updatedFields,
-    });
-  };
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
     const { hospital } = this.state;
@@ -241,12 +206,12 @@ export default class SystemGoalForm extends React.Component<
     const setSubGoals = this.state.subGoal.filter(
       (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     );
-    console.log("Shubham---------------", this.state.context);
+    console.log("Ukkkkkkkkkkkkkkkkkkk ---->  ", this.state.updatedFields);
+
 
     return (
       <>
-        <span className={`${styles.dummy}`}></span>
-
+        <span className={`${styles.dummy}`} />
         <div className="system_goal_container">
           <div
             style={{
@@ -444,6 +409,7 @@ export default class SystemGoalForm extends React.Component<
                             defaultValue={item.Actual}
                             onChange={(e) =>
                               this.handleInputChange(
+                                item.Id,
                                 index,
                                 "Actual",
                                 e.target.value
@@ -457,6 +423,7 @@ export default class SystemGoalForm extends React.Component<
                               defaultChecked={item.ActualVerify || false}
                               onChange={(e) =>
                                 this.handleInputChange(
+                                  item.Id,
                                   index,
                                   "ActualVerify",
                                   e.target.checked
@@ -474,6 +441,7 @@ export default class SystemGoalForm extends React.Component<
                             defaultValue={item.Target || ""}
                             onChange={(e) =>
                               this.handleInputChange(
+                                item.Id,
                                 index,
                                 "Target",
                                 e.target.value
@@ -487,6 +455,7 @@ export default class SystemGoalForm extends React.Component<
                               defaultChecked={item.TargetVerified || false}
                               onChange={(e) =>
                                 this.handleInputChange(
+                                  item.Id,
                                   index,
                                   "TargetVerified",
                                   e.target.checked
@@ -498,9 +467,10 @@ export default class SystemGoalForm extends React.Component<
                         </span>
                       </td>
                       <td>
-                        <textarea
+                        <textarea defaultValue={item.Comment}
                           onChange={(e) =>
                             this.handleInputChange(
+                              item.Id,
                               index,
                               "Comments",
                               e.target.value

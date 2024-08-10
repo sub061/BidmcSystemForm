@@ -1,6 +1,4 @@
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-
 export interface ISystemGoalFormProps {
   description: string;
   isDarkTheme: boolean;
@@ -13,7 +11,7 @@ export interface ISystemGoalFormProps {
   getGoalMetrix: IGoalMetrix[];
   getKPI: any;
   apiUrl: string;
-   websiteUrl: string;
+  websiteUrl: string;
   context: WebPartContext;
 }
 
@@ -56,70 +54,11 @@ export interface IGoalMetrix {
   Target: string;
   ActualVerify: boolean;
   TargetVerified: boolean;
+  Id: number;
+  Comment: any;
 }
 
 export interface IKPI {
   Id: number;
   Title: string;
 }
-
-export const postUpdateData = async ({
-  context,
-  apiUrl,
-  updatedFields,
-  goalMetrix,
-}: any): Promise<void> => {
-  try {
-    const updatedData: any = Object.keys(updatedFields).map((index) => {
-      const originalItem = goalMetrix[parseInt(index)]; // Get the original item
-      const updatedItem = updatedFields[index]; // Get the updated fields for this item
-      return {
-        ...originalItem,
-        ...updatedItem,
-      };
-    });
-
-    const itemBody = {
-      Metrix: JSON.stringify(updatedData),
-    };
-
-    console.log("Payload ----->:", itemBody);
-    const databody = {
-      "__metadata": {
-    "type": "#SP.ListData.MetrixListItems"  // Use the correct type name
-  },
-      // "@odata.type": "#SP.Data.MetrixListItem",
-      // "@odata.id": "b232ae36-c7a7-4ec7-aab0-ed2cd731d7cd",
-      // "@odata.etag":"4",
-      "ActualVerify": true,
-"ID": 4,
-"Id": 4,
-"Target": "40058",
-"DivisionId":1,
-"Actual":"8.6",
-"TargetVerified":true }
-
-    const response: SPHttpClientResponse = await context.spHttpClient.post(
-      apiUrl,
-      SPHttpClient.configurations.v1,
-      {
-        headers: {
-          Accept: "application/json;odata=verbose",
-          "Content-type": "application/json;odata=verbose",
-          "odata-version": "",
-        },
-        body: JSON.stringify(databody),
-      }
-    );
-
-    console.log("Api Response --->", response);
-
-    if (response.ok) {
-      console.log("Form submitted successfully");
-    } else {
-      console.error("Error submitting form", response.statusText);
-    }
-  } catch (error) {
-    console.error("Error submitting form", error);
-  }
-};

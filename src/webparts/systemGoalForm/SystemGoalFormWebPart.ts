@@ -37,19 +37,19 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-    console.log("KPI Data --->", data);
+    // console.log("KPI Data --->", data);
     return data.value;
   }
 
   // Get List for metrix
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Metrix')/Items`;
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Metrix')/Items?$top=5000`;
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(
       requestUrl,
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-    console.log("Metric Data:", data);
+    // console.log("Metric Data:", data);
     return data.value;
   }
 
@@ -61,7 +61,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-    console.log("Sub Goal --->", data.value);
+    // console.log("Sub Goal --->", data.value);
     return data.value;
   }
 
@@ -83,7 +83,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
       SPHttpClient.configurations.v1
     );
     const data = await response.json();
-    console.log("Sytem Goal --->", data.value);
+    // console.log("Sytem Goal --->", data.value);
     return data.value;
   }
 
@@ -109,7 +109,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             getGoalMetrix: getGoalMetrix,
             getKPI: getKPI,
             websiteUrl: this.context.pageContext.web.absoluteUrl,
-            apiUrl: `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Metrix')/items`,
+            apiUrl: `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Metrix')/items$top=5000`,
             context: this.context
           });
 
