@@ -120,9 +120,12 @@ export default class SystemGoalForm extends React.Component<
         const data = updatedData[i];
         const { Id, ...fieldsToUpdate } = data;
         await list.items.getById(Id).update(fieldsToUpdate);
+      window.alert(`List item with ID ${Id} edited successfully`);
       }
     } catch (e) {
       console.error("Error updating list item", e);
+    } finally {
+      window.location.reload();
     }
   };
 
@@ -164,8 +167,8 @@ export default class SystemGoalForm extends React.Component<
   private getFilteredMetrixData() {
     if (
       this.state.systemGoalDropdown.id === null &&
-      !this.state.subGoalDropdown.goalId === null &&
-      !this.state.hospitalDropdwon.hospitalId === null
+      this.state.subGoalDropdown.goalId === null &&
+      this.state.hospitalDropdwon.hospitalId === null
     )
       return [];
     const metrixData = this.state.goalMetrix.filter(
@@ -174,7 +177,6 @@ export default class SystemGoalForm extends React.Component<
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
-    console.log("Filtered Metri data", metrixData);
     return metrixData;
   }
 
@@ -206,7 +208,7 @@ export default class SystemGoalForm extends React.Component<
     const setSubGoals = this.state.subGoal.filter(
       (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     );
-    console.log("Ukkkkkkkkkkkkkkkkkkk ---->  ", this.state.updatedFields);
+    console.log("USSSSSSSSSSSSSS ---->  ", this.state.updatedFields);
 
 
     return (
