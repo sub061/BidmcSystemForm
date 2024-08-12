@@ -2,6 +2,10 @@
   opacity: 1;
 }
 
+#workbenchPageContent {
+  max-width: 1500px;
+}
+
 .system_goal_container {
   font-family: "SegoeUI", "Segoe UI", sans-serif;
 }

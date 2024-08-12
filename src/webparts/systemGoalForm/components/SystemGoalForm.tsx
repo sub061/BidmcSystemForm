@@ -367,6 +367,7 @@ export default class SystemGoalForm extends React.Component<
                 <th style={{ width: "150px", textAlign: "center" }}>&nbsp;</th>
                 <th style={{ width: "150px", textAlign: "center" }}>Actual</th>
                 <th style={{ width: "150px", textAlign: "center" }}>Target</th>
+                <th>Url</th>
                 <th>Comments</th>
               </thead>
               <tbody>
@@ -470,24 +471,24 @@ export default class SystemGoalForm extends React.Component<
                         </span>
                       </td>
                       <td>
-                        <textarea defaultValue={item.Comment}
-                          onChange={(e) =>
-                            this.handleInputChange(
-                              item.Id,
-                              index,
-                              "Comment",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </td>
-                      <td>
                         <textarea defaultValue={item.URL}
                           onChange={(e) =>
                             this.handleInputChange(
                               item.Id,
                               index,
                               "URL",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        <textarea defaultValue={item.Comment}
+                          onChange={(e) =>
+                            this.handleInputChange(
+                              item.Id,
+                              index,
+                              "Comment",
                               e.target.value
                             )
                           }
