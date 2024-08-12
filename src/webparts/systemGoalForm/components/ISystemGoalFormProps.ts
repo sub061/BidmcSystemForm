@@ -56,6 +56,7 @@ export interface IGoalMetrix {
   TargetVerified: boolean;
   Id: number;
   Comment: any;
+  URL: any;
 }
 
 export interface IKPI {

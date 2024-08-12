@@ -209,7 +209,7 @@ export default class SystemGoalForm extends React.Component<
     const setSubGoals = this.state.subGoal.filter(
       (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     );
-    console.log(" Parissssssss ---->  ", this.state.updatedFields);
+    console.log(" Russia ---->  ", this.state.updatedFields);
 
 
     return (
@@ -476,6 +476,18 @@ export default class SystemGoalForm extends React.Component<
                               item.Id,
                               index,
                               "Comment",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        <textarea defaultValue={item.URL}
+                          onChange={(e) =>
+                            this.handleInputChange(
+                              item.Id,
+                              index,
+                              "URL",
                               e.target.value
                             )
                           }
