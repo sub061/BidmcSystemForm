@@ -102,7 +102,8 @@ export default class SystemGoalForm extends React.Component<
     });
   };
 
-  private editListItem = async () => {
+  private editListItem = async (e: any) => {
+    e.preventDefault();
     const { updatedFields } = this.state;
     // Prepare the updated data by using the Id from updatedFields
     const updatedData: any = Object.keys(updatedFields).map((index) => {
@@ -120,8 +121,8 @@ export default class SystemGoalForm extends React.Component<
         const data = updatedData[i];
         const { Id, ...fieldsToUpdate } = data;
         await list.items.getById(Id).update(fieldsToUpdate);
-      window.alert(`List item with ID ${Id} edited successfully`);
       }
+      window.alert(`List item edited successfully`);
     } catch (e) {
       console.error("Error updating list item", e);
     } finally {
@@ -208,7 +209,7 @@ export default class SystemGoalForm extends React.Component<
     const setSubGoals = this.state.subGoal.filter(
       (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     );
-    console.log("USSSSSSSSSSSSSS ---->  ", this.state.updatedFields);
+    console.log(" Parissssssss ---->  ", this.state.updatedFields);
 
 
     return (
@@ -474,7 +475,7 @@ export default class SystemGoalForm extends React.Component<
                             this.handleInputChange(
                               item.Id,
                               index,
-                              "Comments",
+                              "Comment",
                               e.target.value
                             )
                           }
@@ -495,7 +496,7 @@ export default class SystemGoalForm extends React.Component<
               </button>{" "}
               <button
                 // onClick={(e) => this.handleSubmit(e)}
-                onClick={() => this.editListItem()}
+                onClick={(e) => this.editListItem(e)}
               >
                 Save
               </button>
