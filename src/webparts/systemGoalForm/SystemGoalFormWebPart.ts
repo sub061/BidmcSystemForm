@@ -43,7 +43,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
 
   // Get List for metrix
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Metrix')/Items?$top=5000`;
+    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal Metrix')/Items?$top=5000`;
     const response: SPHttpClientResponse = await this.context.spHttpClient.get(
       requestUrl,
       SPHttpClient.configurations.v1

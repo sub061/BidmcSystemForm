@@ -168,21 +168,22 @@ export default class SystemGoalForm extends React.Component<
   private getFilteredMetrixData() {
     if (
       this.state.systemGoalDropdown.id === null &&
-      this.state.subGoalDropdown.goalId === null &&
+      // this.state.subGoalDropdown.goalId === null &&
       this.state.hospitalDropdwon.hospitalId === null
     )
       return [];
     const metrixData = this.state.goalMetrix.filter(
       (item: any) =>
-        this.state.subGoalDropdown.goalId === item.SubGoalId &&
+        // this.state.subGoalDropdown.goalId === item.SubGoalId &&
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
+    console.log("Metrix Data ----------->", metrixData);
     return metrixData;
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital } = this.state;
+    const { hospital, goalMetrix } = this.state;
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null) {
@@ -205,11 +206,25 @@ export default class SystemGoalForm extends React.Component<
       return acc;
     }, headings);
 
+    const subGoalGroup =
+      this.getFilteredMetrixData().reduce((result: any, item: any) => {
+        // If subgoaliD is already a key, push the item to that array
+        if (!result[item.SubGoalId]) {
+          result[item.SubGoalId] = [];
+        }
+        result[item.SubGoalId].push(item);
+        return result;
+      }, {});
+
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const setSubGoals = this.state.subGoal.filter(
-      (item: any) => item.GoalId === this.state.systemGoalDropdown.id
-    );
-    console.log(" Russia ---->  ", this.state.updatedFields);
+    // const setSubGoals = this.state.subGoal.filter(
+    //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
+    // );
+    console.log("Africe SSSSSSSSSSSS ---->  ", this.state.updatedFields);
+
+    console.log("Goal Metrix SSSSSSSSSSS -->", goalMetrix)
+    console.log("Sub Goal Group SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-->", subGoalGroup)
 
 
     return (
@@ -324,7 +339,7 @@ export default class SystemGoalForm extends React.Component<
               </div>
 
               {/* Sub goal dropdown */}
-              <div className="field_container">
+              {/* <div className="field_container">
                 <label>Sub Goal:</label>
                 <div className="dropdown">
                   <button
@@ -357,311 +372,219 @@ export default class SystemGoalForm extends React.Component<
                     )}
                   </ul>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Table View */}
             <table className="value_table">
-            <thead>
+              <thead>
                 <th style={{ width: "500px", textAlign: "left" }}>Goal’s</th>
                 <th style={{ width: "300px", textAlign: "left" }}>MTD</th>
                 <th style={{ width: "300px", textAlign: "left" }}>YTD</th>
                 <th>Url</th>
                 <th>Comments</th>
               </thead>
-              <thead>
-                <th style={{ width: "500px", textAlign: "left" }}>Labor Efficiency/Productivity</th>
-                <th>
-                  <table>
-                    <thead>
-                      <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
-                      <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
-                      <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
-                    </thead>
-                  </table>
-                </th>
-                <th>
-                  <table>
-                    <thead>
-                      <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
-                      <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
-                      <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
-                    </thead>
-                  </table>
-                </th>
-                <th>
-                  {/* Url */}
-                  </th>
-                <th>
-                  {/* Comments */}
-                  </th>
-              </thead>
               <tbody>
-                {this.getFilteredMetrixData().length > 0 ? (
-                  this.getFilteredMetrixData().map((item, index) => (
-                    <tr key={index}>
-                      <td style={{ width: "500px", textAlign: "left" }}>
-                       <div className="dropDown_container">
-                       <span>{this.getKPITitle(item.KPIId)} </span>
-                        <div className="dropdown">
-                          <button
-                            className="btn dropdown-toggle"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            Percentage
-                          </button>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <a className="dropdown-item" href="#">
-                                Percentage
-                              </a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#">
-                                Boolean
-                              </a>
-                            </li>
-                            <li>
-                              <a className="dropdown-item" href="#">
-                                Number
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                       </div>
-                      </td>
-                      
-                      <td style={{ width: "150px", textAlign: "center" }}>
+                {Object.keys(subGoalGroup).map((subgoalId) => (
+                  <React.Fragment key={subgoalId}>
+                    <tr>
+                      <th style={{ width: "500px", textAlign: "left" }}> Subgoal ID: {subgoalId}</th>
+                      <th>
                         <table>
-                          <tbody>
-                            <tr>
-                              <td> <span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Actual}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Actual",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`ac-${index}`}
-                              defaultChecked={item.ActualVerify || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "ActualVerify",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`ac-${index}`} />
-                          </div>
-                        </span></td>
-                              <td> <span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Actual}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Actual",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`ac-${index}`}
-                              defaultChecked={item.ActualVerify || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "ActualVerify",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`ac-${index}`} />
-                          </div>
-                        </span></td>
-                              <td> <span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Actual}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Actual",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`ac-${index}`}
-                              defaultChecked={item.ActualVerify || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "ActualVerify",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`ac-${index}`} />
-                          </div>
-                        </span></td>                           
-                            </tr>
-                          </tbody>
+                          <thead>
+                            <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
+                            <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
+                            <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
+                          </thead>
                         </table>
-                       
-                      </td>
-                      <td style={{ textAlign: "center" }}>
+                      </th>
+                      <th>
                         <table>
-                          <tbody>
-                            <tr>
-                              <td><span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Target || ""}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Target",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`tr-${index}`}
-                              defaultChecked={item.TargetVerified || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "TargetVerified",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`tr-${index}`} />
-                          </div>
-                        </span></td>
-                        <td><span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Target || ""}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Target",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`tr-${index}`}
-                              defaultChecked={item.TargetVerified || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "TargetVerified",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`tr-${index}`} />
-                          </div>
-                        </span></td>
-                        <td><span className="cell_with_checkbox">
-                          <input
-                            type="text"
-                            defaultValue={item.Target || ""}
-                            onChange={(e) =>
-                              this.handleInputChange(
-                                item.Id,
-                                index,
-                                "Target",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={`tr-${index}`}
-                              defaultChecked={item.TargetVerified || false}
-                              onChange={(e) =>
-                                this.handleInputChange(
-                                  item.Id,
-                                  index,
-                                  "TargetVerified",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor={`tr-${index}`} />
-                          </div>
-                        </span></td>
-                            </tr>
-                          </tbody>
+                          <thead>
+                            <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
+                            <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
+                            <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
+                          </thead>
                         </table>
-                        
-                      </td>
-                      <td>
-                        <textarea defaultValue={item.URL}
-                          onChange={(e) =>
-                            this.handleInputChange(
-                              item.Id,
-                              index,
-                              "URL",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </td>
-                      <td>
-                        <textarea defaultValue={item.Comment}
-                          onChange={(e) =>
-                            this.handleInputChange(
-                              item.Id,
-                              index,
-                              "Comment",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </td>
+                      </th>
+                      <th>
+                        {/* Url */}
+                      </th>
+                      <th>
+                        {/* Comments */}
+                      </th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5}>No KPIs to show</td>
-                  </tr>
-                )}
+
+                    {subGoalGroup[subgoalId].map((item: any, index: number) => (
+                      <tr key={index}>
+                        <td style={{ width: "500px", textAlign: "left" }}>
+                          <div className="dropDown_container">
+                            <span>{this.getKPITitle(item.KPIId)} </span>
+                            <div className="dropdown">
+                              <button
+                                className="btn dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              >
+                                Percentage
+                              </button>
+                              <ul className="dropdown-menu">
+                                <li>
+                                  <a className="dropdown-item" href="#">
+                                    Percentage
+                                  </a>
+                                </li>
+                                <li>
+                                  <a className="dropdown-item" href="#">
+                                    Boolean
+                                  </a>
+                                </li>
+                                <li>
+                                  <a className="dropdown-item" href="#">
+                                    Number
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* MTD Table */}
+                        <td style={{ width: "150px", textAlign: "center" }}>
+                          <table>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.Actual}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "Actual",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.Budget}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "Budget",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.PriorYear}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "PriorYear",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+
+                        {/* YTD Table */}
+                        <td style={{ textAlign: "center" }}>
+                          <table>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.YTDActual}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "YTDActual",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.YTDBudget}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "YTDBudget",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    defaultValue={item.YTDPriorYear}
+                                    onChange={(e) =>
+                                      this.handleInputChange(
+                                        item.Id,
+                                        index,
+                                        "YTDPriorYear",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+
+                        {/* URL and Comments */}
+                        <td>
+                          <textarea
+                            defaultValue={item.URL}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "URL",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </td>
+                        <td>
+                          <textarea
+                            defaultValue={item.Comment}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "Comment",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ))}
               </tbody>
             </table>
             <div className="btn_container_footer">
