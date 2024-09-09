@@ -312,7 +312,7 @@ export default class SystemGoalForm extends React.Component<
 
               {/* System goal dropdown */}
               <div className="field_container">
-                <label>Goal:</label>
+                <label>Pillar:</label>
                 <div className="dropdown">
                   <button
                     className="btn dropdown-toggle"
