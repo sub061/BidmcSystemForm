@@ -379,18 +379,18 @@ export default class SystemGoalForm extends React.Component<
             <table className="value_table">
               <thead>
                 <th style={{ width: "500px", textAlign: "left" }}>Goal’s</th>
-                <th style={{ width: "300px", textAlign: "left" }}>MTD</th>
-                <th style={{ width: "300px", textAlign: "left" }}>YTD</th>
+                <th style={{ width: "300px", textAlign: "center" }}>MTD</th>
+                <th style={{ width: "300px", textAlign: "center" }}>YTD</th>
                 <th>Url</th>
                 <th>Comments</th>
               </thead>
               <tbody>
                 {Object.keys(subGoalGroup).map((subgoalId) => (
                   <React.Fragment key={subgoalId}>
-                    <tr>
+                    <tr className="table_row_repeat">
                       <th style={{ width: "500px", textAlign: "left" }}> Subgoal ID: {subgoalId}</th>
                       <th>
-                        <table>
+                        <table className="inner_repeat_table">
                           <thead>
                             <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
                             <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
@@ -399,7 +399,7 @@ export default class SystemGoalForm extends React.Component<
                         </table>
                       </th>
                       <th>
-                        <table>
+                        <table className="inner_repeat_table">
                           <thead>
                             <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
                             <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
