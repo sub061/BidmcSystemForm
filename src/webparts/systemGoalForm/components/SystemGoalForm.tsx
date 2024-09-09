@@ -362,22 +362,47 @@ export default class SystemGoalForm extends React.Component<
 
             {/* Table View */}
             <table className="value_table">
-              <thead>
-                <th style={{ width: "320px", textAlign: "left" }}>KPI's</th>
-                <th style={{ width: "150px", textAlign: "center" }}>&nbsp;</th>
-                <th style={{ width: "150px", textAlign: "center" }}>Actual</th>
-                <th style={{ width: "150px", textAlign: "center" }}>Target</th>
+            <thead>
+                <th style={{ width: "500px", textAlign: "left" }}>Goal’s</th>
+                <th style={{ width: "300px", textAlign: "left" }}>MTD</th>
+                <th style={{ width: "300px", textAlign: "left" }}>YTD</th>
                 <th>Url</th>
                 <th>Comments</th>
+              </thead>
+              <thead>
+                <th style={{ width: "500px", textAlign: "left" }}>Labor Efficiency/Productivity</th>
+                <th>
+                  <table>
+                    <thead>
+                      <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
+                      <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
+                      <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
+                    </thead>
+                  </table>
+                </th>
+                <th>
+                  <table>
+                    <thead>
+                      <th style={{ width: "100px", textAlign: "center" }}>Actual</th>
+                      <th style={{ width: "100px", textAlign: "center" }}>Budget</th>
+                      <th style={{ width: "100px", textAlign: "center" }}>Prior Yr</th>
+                    </thead>
+                  </table>
+                </th>
+                <th>
+                  {/* Url */}
+                  </th>
+                <th>
+                  {/* Comments */}
+                  </th>
               </thead>
               <tbody>
                 {this.getFilteredMetrixData().length > 0 ? (
                   this.getFilteredMetrixData().map((item, index) => (
                     <tr key={index}>
-                      <td style={{ width: "320px", textAlign: "left" }}>
-                        {this.getKPITitle(item.KPIId)}
-                      </td>
-                      <td style={{ width: "150px", textAlign: "center" }}>
+                      <td style={{ width: "500px", textAlign: "left" }}>
+                       <div className="dropDown_container">
+                       <span>{this.getKPITitle(item.KPIId)} </span>
                         <div className="dropdown">
                           <button
                             className="btn dropdown-toggle"
@@ -405,9 +430,14 @@ export default class SystemGoalForm extends React.Component<
                             </li>
                           </ul>
                         </div>
+                       </div>
                       </td>
+                      
                       <td style={{ width: "150px", textAlign: "center" }}>
-                        <span className="cell_with_checkbox">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td> <span className="cell_with_checkbox">
                           <input
                             type="text"
                             defaultValue={item.Actual}
@@ -436,10 +466,77 @@ export default class SystemGoalForm extends React.Component<
                             />
                             <label htmlFor={`ac-${index}`} />
                           </div>
-                        </span>
+                        </span></td>
+                              <td> <span className="cell_with_checkbox">
+                          <input
+                            type="text"
+                            defaultValue={item.Actual}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "Actual",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id={`ac-${index}`}
+                              defaultChecked={item.ActualVerify || false}
+                              onChange={(e) =>
+                                this.handleInputChange(
+                                  item.Id,
+                                  index,
+                                  "ActualVerify",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor={`ac-${index}`} />
+                          </div>
+                        </span></td>
+                              <td> <span className="cell_with_checkbox">
+                          <input
+                            type="text"
+                            defaultValue={item.Actual}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "Actual",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id={`ac-${index}`}
+                              defaultChecked={item.ActualVerify || false}
+                              onChange={(e) =>
+                                this.handleInputChange(
+                                  item.Id,
+                                  index,
+                                  "ActualVerify",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor={`ac-${index}`} />
+                          </div>
+                        </span></td>                           
+                            </tr>
+                          </tbody>
+                        </table>
+                       
                       </td>
-                      <td style={{ width: "150px", textAlign: "center" }}>
-                        <span className="cell_with_checkbox">
+                      <td style={{ textAlign: "center" }}>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td><span className="cell_with_checkbox">
                           <input
                             type="text"
                             defaultValue={item.Target || ""}
@@ -468,7 +565,71 @@ export default class SystemGoalForm extends React.Component<
                             />
                             <label htmlFor={`tr-${index}`} />
                           </div>
-                        </span>
+                        </span></td>
+                        <td><span className="cell_with_checkbox">
+                          <input
+                            type="text"
+                            defaultValue={item.Target || ""}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "Target",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id={`tr-${index}`}
+                              defaultChecked={item.TargetVerified || false}
+                              onChange={(e) =>
+                                this.handleInputChange(
+                                  item.Id,
+                                  index,
+                                  "TargetVerified",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor={`tr-${index}`} />
+                          </div>
+                        </span></td>
+                        <td><span className="cell_with_checkbox">
+                          <input
+                            type="text"
+                            defaultValue={item.Target || ""}
+                            onChange={(e) =>
+                              this.handleInputChange(
+                                item.Id,
+                                index,
+                                "Target",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id={`tr-${index}`}
+                              defaultChecked={item.TargetVerified || false}
+                              onChange={(e) =>
+                                this.handleInputChange(
+                                  item.Id,
+                                  index,
+                                  "TargetVerified",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor={`tr-${index}`} />
+                          </div>
+                        </span></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
                       </td>
                       <td>
                         <textarea defaultValue={item.URL}

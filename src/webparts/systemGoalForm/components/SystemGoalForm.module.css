@@ -3,7 +3,7 @@
 }
 
 #workbenchPageContent {
-  max-width: 1500px;
+  max-width: 1920px;
 }
 
 .system_goal_container {
@@ -146,7 +146,9 @@
   gap: 8px;
 }
 .system_goal_container .value_table .dropdown {
-  min-width: 100%;
+  min-width: unset;
+  width: unset;
+  flex: unset;
 }
 .system_goal_container .value_table .dropdown .btn {
   min-width: 130px;
@@ -212,6 +214,13 @@
 .system_goal_container .value_table textarea {
   height: 60px;
   width: 100%;
+}
+.system_goal_container .value_table .dropDown_container {
+  display: flex;
+  justify-content: space-between;
+}
+.system_goal_container .value_table .dropDown_container span {
+  flex: 1;
 }
 .system_goal_container .btn_container_footer {
   display: flex;

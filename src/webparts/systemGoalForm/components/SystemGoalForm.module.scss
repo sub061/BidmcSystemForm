@@ -3,7 +3,7 @@
 }
 
 #workbenchPageContent {
-  max-width: 1500px;
+  max-width: 1920px;
 }
 
 .system_goal_container{
@@ -157,7 +157,9 @@
       }
     }
     .dropdown{
-      min-width: 100%;
+      min-width: unset;
+      width: unset;
+      flex: unset;
       .btn{
         min-width: 130px;
       }
@@ -234,6 +236,13 @@
     textarea {
       height: 60px;
       width: 100%;
+    }
+    .dropDown_container {
+      display: flex;
+      justify-content: space-between;
+      span{
+        flex: 1;
+      }
     }
 
   }
