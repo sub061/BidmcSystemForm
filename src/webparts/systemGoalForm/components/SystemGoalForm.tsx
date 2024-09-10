@@ -165,6 +165,14 @@ export default class SystemGoalForm extends React.Component<
     return kpi ? kpi.Title : "Unknown KPI";
   };
 
+  // Get SubGoal Title
+  private getSubGoalTitle = (subGoalId: number) => {
+    const { subGoal } = this.state;
+    if (!subGoal) return "Unknown KPI"; // Check if dataKPI is null
+    const subGoalData = subGoal.find((subGoal: any) => subGoal.Id === subGoalId);
+    return subGoalData ? subGoalData.Title : "Unknown KPI";
+  };
+
   private getFilteredMetrixData() {
     if (
       this.state.systemGoalDropdown.id === null &&
@@ -221,10 +229,10 @@ export default class SystemGoalForm extends React.Component<
     // const setSubGoals = this.state.subGoal.filter(
     //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     // );
-    console.log("Kenya MMMMMMMMM ---->  ", this.state.updatedFields);
+    console.log("India ----> IIIIIIIIII  ", this.state.updatedFields);
 
-    console.log("Goal Metrix MMMMMMMMM -->", goalMetrix)
-    console.log("Sub Goal Group MMMMMMMMM-->", subGoalGroup)
+    console.log("Goal Metrix IIIIIIIIII -->", goalMetrix)
+    console.log("Sub Goal Group IIIIIIIIII-->", subGoalGroup)
 
 
     return (
@@ -388,7 +396,7 @@ export default class SystemGoalForm extends React.Component<
                 {Object.keys(subGoalGroup).map((subgoalId) => (
                   <React.Fragment key={subgoalId}>
                     <tr className="table_row_repeat">
-                      <th style={{ width: "500px", textAlign: "left" }}> Subgoal ID: {subgoalId}</th>
+                      <th style={{ width: "500px", textAlign: "left" }}>{this.getSubGoalTitle(Number(subgoalId))}</th>
                       <th>
                         <table className="inner_repeat_table">
                           <thead>
