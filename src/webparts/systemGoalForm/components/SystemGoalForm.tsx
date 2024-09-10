@@ -87,14 +87,14 @@ export default class SystemGoalForm extends React.Component<
 
   private handleInputChange = (id: number, index: number, field: string, value: any) => {
     const updatedFields = { ...this.state.updatedFields };
-
+    console.log("Index --->", index)
     // If the index is not in updatedFields, initialize it
-    if (!updatedFields[index]) {
-      updatedFields[index] = { Id: id }; // Initialize with Id
+    if (!updatedFields[id]) {
+      updatedFields[id] = { Id: id }; // Initialize with Id
     }
 
     // Update the specific field for the index
-    updatedFields[index][field] = value;
+    updatedFields[id][field] = value;
 
     // Update the state
     this.setState({
@@ -113,7 +113,7 @@ export default class SystemGoalForm extends React.Component<
         ...updatedItem,
       };
     });
-    const list = this.state._sp.web.lists.getByTitle("Metrix");
+    const list = this.state._sp.web.lists.getByTitle("Goal Metrix");
 
     try {
       // Iterate over updated data to update each item individually
@@ -221,10 +221,10 @@ export default class SystemGoalForm extends React.Component<
     // const setSubGoals = this.state.subGoal.filter(
     //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     // );
-    console.log("Africe SSSSSSSSSSSS ---->  ", this.state.updatedFields);
+    console.log("Kenya MMMMMMMMM ---->  ", this.state.updatedFields);
 
-    console.log("Goal Metrix SSSSSSSSSSS -->", goalMetrix)
-    console.log("Sub Goal Group SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS-->", subGoalGroup)
+    console.log("Goal Metrix MMMMMMMMM -->", goalMetrix)
+    console.log("Sub Goal Group MMMMMMMMM-->", subGoalGroup)
 
 
     return (
@@ -447,6 +447,7 @@ export default class SystemGoalForm extends React.Component<
                                 </li>
                               </ul>
                             </div>
+
                           </div>
                         </td>
 
@@ -458,12 +459,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.Actual}
+                                    defaultValue={item.MTD_ACTUAL}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "Actual",
+                                        "MTD_ACTUAL",
                                         e.target.value
                                       )
                                     }
@@ -472,12 +473,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.Budget}
+                                    defaultValue={item.MTD_BUDGET}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "Budget",
+                                        "MTD_BUDGET",
                                         e.target.value
                                       )
                                     }
@@ -486,12 +487,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.PriorYear}
+                                    defaultValue={item.MTD_PRIOR_YEAR_VARIANCE}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "PriorYear",
+                                        "MTD_PRIOR_YEAR_VARIANCE",
                                         e.target.value
                                       )
                                     }
@@ -510,12 +511,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.YTDActual}
+                                    defaultValue={item.YTD_ACTUAL}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "YTDActual",
+                                        "YTD_ACTUAL",
                                         e.target.value
                                       )
                                     }
@@ -524,12 +525,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.YTDBudget}
+                                    defaultValue={item.YTD_BUDGET}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "YTDBudget",
+                                        "YTD_BUDGET",
                                         e.target.value
                                       )
                                     }
@@ -538,12 +539,12 @@ export default class SystemGoalForm extends React.Component<
                                 <td>
                                   <input
                                     type="text"
-                                    defaultValue={item.YTDPriorYear}
+                                    defaultValue={item.YTD_PRIOR_YEAR}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
                                         index,
-                                        "YTDPriorYear",
+                                        "YTD_PRIOR_YEAR",
                                         e.target.value
                                       )
                                     }
