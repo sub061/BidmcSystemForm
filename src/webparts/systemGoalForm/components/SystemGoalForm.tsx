@@ -441,7 +441,7 @@ export default class SystemGoalForm extends React.Component<
                           <span>{this.getKPITitle(item.KPIId)} </span>
                         </td>
                         <td style={{ width: "50px", textAlign: "center" }}>
-                          <div className="dropdown">
+                          {/* <div className="dropdown">
                             <button
                               className="btn dropdown-toggle"
                               type="button"
@@ -462,7 +462,11 @@ export default class SystemGoalForm extends React.Component<
                                 </a>
                               </li>
                             </ul>
-                          </div>
+                          </div> */}
+                          <select>
+                            <option value="Q">Q</option>
+                            <option value="M">M</option>
+                          </select>
                         </td>
 
                         {/* MTD Table */}
