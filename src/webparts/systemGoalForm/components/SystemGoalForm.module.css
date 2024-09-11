@@ -188,6 +188,12 @@
   width: 40px;
   min-width: 40px;
 }
+.system_goal_container .value_table select {
+  height: 26px;
+  border-color: #d2d2d2;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
 .system_goal_container .value_table input[type=text],
 .system_goal_container .value_table textarea {
   display: flex;
