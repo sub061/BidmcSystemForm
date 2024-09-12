@@ -172,12 +172,18 @@
       }
       &.mtd_color {
         background-color: #fff8e0;
+        input{
+          text-align: right;
+        }
         table {
           height: 100%;
         }
       }
       &.ytd_color {
         background-color: #f4fff2;
+        input{
+          text-align: right;
+        }
         table {
           height: 100%;
         }

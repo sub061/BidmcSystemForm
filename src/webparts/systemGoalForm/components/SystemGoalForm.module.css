@@ -162,11 +162,17 @@
 .system_goal_container .value_table td.mtd_color {
   background-color: #fff8e0;
 }
+.system_goal_container .value_table td.mtd_color input {
+  text-align: right;
+}
 .system_goal_container .value_table td.mtd_color table {
   height: 100%;
 }
 .system_goal_container .value_table td.ytd_color {
   background-color: #f4fff2;
+}
+.system_goal_container .value_table td.ytd_color input {
+  text-align: right;
 }
 .system_goal_container .value_table td.ytd_color table {
   height: 100%;
