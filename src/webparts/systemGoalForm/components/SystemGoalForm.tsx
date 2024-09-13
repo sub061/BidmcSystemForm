@@ -113,7 +113,7 @@ export default class SystemGoalForm extends React.Component<
         ...updatedItem,
       };
     });
-    const list = this.state._sp.web.lists.getByTitle("Goal Metrix");
+    const list = this.state._sp.web.lists.getByTitle("Metrix");
 
     try {
       // Iterate over updated data to update each item individually
@@ -180,14 +180,14 @@ export default class SystemGoalForm extends React.Component<
       this.state.hospitalDropdwon.hospitalId === null
     )
       return [];
-    const metrixData = this.state.goalMetrix.filter(
+    const metrixData = this.state?.goalMetrix?.filter(
       (item: any) =>
         // this.state.subGoalDropdown.goalId === item.SubGoalId &&
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
     console.log("Metrix Data ----------->", metrixData);
-    return metrixData;
+    return metrixData || [];
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
@@ -386,12 +386,12 @@ export default class SystemGoalForm extends React.Component<
             {/* Table View */}
             <table className="value_table">
               <thead>
-                <th style={{ width: "380px", textAlign: "left" }}>Goal’s</th>
+                <th style={{ minWidth: "300px", maxWidth: "300px", textAlign: "left" }}>Goal’s</th>
                 <th style={{ width: "50px", textAlign: "center" }}>Q/M</th>
-                <th style={{ width: "300px", textAlign: "center" }}>MTD/QTD</th>
-                <th style={{ width: "300px", textAlign: "center" }}>YTD</th>
-                <th style={{ width: "200px", textAlign: "left" }}>Url</th>
-                <th style={{ width: "200px", textAlign: "left" }}>Comments</th>
+                <th style={{ minWidth: "201px", maxWidth: "201px", textAlign: "center" }}>MTD/QTD</th>
+                <th style={{ minWidth: "201px", maxWidth: "201px", textAlign: "center" }}>YTD</th>
+                <th style={{ minWidth: "120px", maxWidth: "120px", textAlign: "left" }}>Url</th>
+                <th style={{ width: "100%", textAlign: "left" }}>Comments</th>
               </thead>
               <tbody>
                 {Object.keys(subGoalGroup).map((subgoalId) => (
@@ -409,9 +409,9 @@ export default class SystemGoalForm extends React.Component<
                       <table width="100%"  cellSpacing="0" cellPadding="0" className="inner_repeat_table" style={{ width: '100%', height: '100%' }}>
                           <thead>
                             <tr>
-                            <th style={{ width: "100px", textAlign: "center", border: '0' }}>Actual</th>
-                            <th style={{ width: "100px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>Budget or Target</th>
-                            <th style={{ width: "100px", textAlign: "center", border: '0' }}>Prior Yr</th>
+                            <th style={{ minWidth: "67px", maxWidth: "67px", textAlign: "center", border: '0' }}>Actual</th>
+                            <th style={{ minWidth: "67px", maxWidth: "67px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>Budget or Target</th>
+                            <th style={{ minWidth: "67px", maxWidth: "67px", textAlign: "center", border: '0' }}>Prior Yr</th>
                             </tr>
                           </thead>
                         </table>
@@ -420,9 +420,9 @@ export default class SystemGoalForm extends React.Component<
                         <table width="100%"  cellSpacing="0" cellPadding="0" className="inner_repeat_table" style={{ width: '100%', height: '100%' }}>
                           <thead>
                             <tr>
-                              <th style={{ width: "100px", textAlign: "center", border: '0' }}>Actual</th>
-                              <th style={{ width: "100px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>Budget or Target</th>
-                              <th style={{ width: "100px", textAlign: "center", border: '0' }}>Prior Yr</th>
+                              <th style={{ minWidth: "67px", maxWidth: "67px", textAlign: "center", border: '0' }}>Actual</th>
+                              <th style={{minWidth: "67px", maxWidth: "67px",  textAlign: "center", borderTop: '0', borderBottom: '0' }}>Budget or Target</th>
+                              <th style={{ minWidth: "67px", maxWidth: "67px", textAlign: "center", border: '0' }}>Prior Yr</th>
                             </tr>
                           </thead>
                         </table>
@@ -470,11 +470,11 @@ export default class SystemGoalForm extends React.Component<
                         </td>
 
                         {/* MTD Table */}
-                        <td className="mtd_color" style={{ width: "150px", textAlign: "center", padding: '0' }}>
+                        <td className="mtd_color" style={{  textAlign: "center", padding: '0' }}>
                           <table>
                             <tbody>
                               <tr>
-                                <td style={{  textAlign: "center", border: '0' }}>
+                                <td style={{  width: "67px", textAlign: "center", border: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.MTD_ACTUAL}
@@ -488,7 +488,7 @@ export default class SystemGoalForm extends React.Component<
                                     }
                                   />
                                 </td>
-                                <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0' }}>
+                                <td style={{width: "67px",  textAlign: "center", borderTop: '0', borderBottom: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.MTD_BUDGET}
@@ -502,7 +502,7 @@ export default class SystemGoalForm extends React.Component<
                                     }
                                   />
                                 </td>
-                                <td style={{  textAlign: "center", border: '0' }}>
+                                <td style={{ width: "67px", textAlign: "center", border: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.MTD_PRIOR_YEAR_VARIANCE}
@@ -526,7 +526,7 @@ export default class SystemGoalForm extends React.Component<
                           <table>
                             <tbody>
                               <tr>
-                                <td style={{  textAlign: "center", border: '0' }}>
+                                <td style={{  width: "67px", textAlign: "center", border: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.YTD_ACTUAL}
@@ -540,7 +540,7 @@ export default class SystemGoalForm extends React.Component<
                                     }
                                   />
                                 </td>
-                                <td style={{  textAlign: "center", borderTop: '0', borderBottom: '0' }}>
+                                <td style={{  width: "67px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.YTD_BUDGET}
@@ -554,7 +554,7 @@ export default class SystemGoalForm extends React.Component<
                                     }
                                   />
                                 </td>
-                                <td style={{  textAlign: "center", border: '0' }}>
+                                <td style={{  width: "67px", textAlign: "center", border: '0' }}>
                                   <input
                                     type="text"
                                     defaultValue={item.YTD_PRIOR_YEAR}

@@ -125,7 +125,6 @@
   overflow: hidden;
   border-collapse: collapse;
   margin-top: 24px;
-  table-layout: fixed;
 }
 .system_goal_container .value_table .inner_repeat_table th,
 .system_goal_container .value_table .inner_repeat_table td {
