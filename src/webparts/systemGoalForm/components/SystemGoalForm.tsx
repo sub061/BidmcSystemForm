@@ -229,10 +229,10 @@ export default class SystemGoalForm extends React.Component<
     // const setSubGoals = this.state.subGoal.filter(
     //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     // );
-    console.log("India ----> IIIIIIIIII  ", this.state.updatedFields);
+    console.log("India ----> AAAAAAAAAAA  ", this.state.updatedFields);
 
-    console.log("Goal Metrix IIIIIIIIII -->", goalMetrix)
-    console.log("Sub Goal Group IIIIIIIIII-->", subGoalGroup)
+    console.log("Goal Metrix AAAAAAAAAAAA -->", goalMetrix)
+    console.log("Sub Goal Group AAAAAAAAAAAAAA-->", subGoalGroup)
 
 
     return (

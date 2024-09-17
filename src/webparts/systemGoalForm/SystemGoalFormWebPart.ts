@@ -65,6 +65,24 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
     return data.value;
   }
 
+  //New List For Hospitals
+  public async getHospitalListData(): Promise<any[]> {
+    const requestUrl = `https://192.168.1.8/WeatherForecast`;
+    try {
+      const response = await fetch(requestUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Data -------->", data);
+      // Assuming data is an object with a 'value' key, as in the original code
+      return data;
+    } catch (error) {
+      console.error("Error fetching hospital list data:", error);
+      return [];
+    }
+  }
+
   //List For Hospitals
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Hospital')/Items`;
@@ -75,6 +93,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
     const data = await response.json();
     return data.value;
   }
+
   // Get List for System Goal
   public async getSytemGoalConfiguration(): Promise<ISystemGoal[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal')/Items`;
@@ -95,6 +114,9 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
         const getHospital = await this.getHospitalConfiguration();
         const getSystemGoal = await this.getSytemGoalConfiguration();
         const getGoal = await this.getGoalConfiguration();
+        const newHospitals = await this.getHospitalListData();
+
+        console.log("AAAAAAAAAAAAAAAAAAAAAAA", newHospitals);
 
         const element: React.ReactElement<ISystemGoalFormProps> =
           React.createElement(SystemGoalForm, {
@@ -110,7 +132,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             getKPI: getKPI,
             websiteUrl: this.context.pageContext.web.absoluteUrl,
             apiUrl: `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Metrix')/items$top=5000`,
-            context: this.context
+            context: this.context,
           });
 
         ReactDom.render(element, this.domElement);
