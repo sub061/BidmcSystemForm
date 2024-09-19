@@ -41,6 +41,21 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
     return data.value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async getKpisData(): Promise<any> {
+    try {
+      const response = await fetch("https://192.168.1.8/api/kpis");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching Kpi data:", error);
+      throw error;
+    }
+  }
+
   // Get List for metrix
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal Metrix')/Items?$top=5000`;
@@ -65,6 +80,21 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
     return data.value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async getSubGoalata(): Promise<any> {
+    try {
+      const response = await fetch("https://192.168.1.8/api/subgoals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching subgoals data:", error);
+      throw error;
+    }
+  }
+
   //List For Hospitals
   public async getHospitalConfiguration(): Promise<IHospital[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Hospital')/Items`;
@@ -75,6 +105,23 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
     const data = await response.json();
     return data.value;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async getHospitalListData(): Promise<any> {
+    try {
+      const response = await fetch("https://192.168.1.8/api/hospitals");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching hospital data:", error);
+      throw error;
+    }
+  }
+
   // Get List for System Goal
   public async getSytemGoalConfiguration(): Promise<ISystemGoal[]> {
     const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal')/Items`;
@@ -95,6 +142,11 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
         const getHospital = await this.getHospitalConfiguration();
         const getSystemGoal = await this.getSytemGoalConfiguration();
         const getGoal = await this.getGoalConfiguration();
+        const newHospital = await this.getHospitalListData();
+        const newKpis = await this.getKpisData();
+        const newSubgoal = await this.getSubGoalata();
+
+        console.log("NEw SubGoal Data ----->", newSubgoal);
 
         const element: React.ReactElement<ISystemGoalFormProps> =
           React.createElement(SystemGoalForm, {
@@ -108,9 +160,12 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             getSystemGoal: getSystemGoal,
             getGoalMetrix: getGoalMetrix,
             getKPI: getKPI,
+            newHospital: newHospital,
+            newKpis: newKpis,
+            newSubgoal: newSubgoal,
             websiteUrl: this.context.pageContext.web.absoluteUrl,
             apiUrl: `${this.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Metrix')/items$top=5000`,
-            context: this.context
+            context: this.context,
           });
 
         ReactDom.render(element, this.domElement);

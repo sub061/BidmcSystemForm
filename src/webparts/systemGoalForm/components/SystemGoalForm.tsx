@@ -45,11 +45,11 @@ export default class SystemGoalForm extends React.Component<
     super(props);
     this.state = {
       systemGoal: props.getSystemGoal || null,
-      hospital: props.getHospital || null,
+      hospital: props.newHospital || null,
       goals: [],
       subGoal: props.getGoal || null,
       goalMetrix: props.getGoalMetrix || null,
-      kpiData: props.getKPI || null,
+      kpiData: props.newKpis || null,
       updatedFields: {},
       apiUrl: props.apiUrl,
       context: props.context,
@@ -186,12 +186,11 @@ export default class SystemGoalForm extends React.Component<
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
-    console.log("Metrix Data ussssssssssssssssssss ----------->", metrixData);
     return metrixData || [];
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital, goalMetrix } = this.state;
+    const { hospital, kpiData } = this.state;
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null) {
@@ -224,15 +223,8 @@ export default class SystemGoalForm extends React.Component<
         return result;
       }, {});
 
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const setSubGoals = this.state.subGoal.filter(
-    //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
-    // );
-    console.log("America ----> 22222222222  ", this.state.updatedFields);
-
-    console.log("Goal Metrix 22222222 -->", goalMetrix)
-    console.log("Sub Goal Group 22222222-->", subGoalGroup)
+    console.log("New Hospital Shubham Data --->", hospital);
+    console.log("New Kpi Data --->", kpiData);
 
 
     return (

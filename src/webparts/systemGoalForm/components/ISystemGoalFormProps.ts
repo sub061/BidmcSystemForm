@@ -13,6 +13,9 @@ export interface ISystemGoalFormProps {
   apiUrl: string;
   websiteUrl: string;
   context: WebPartContext;
+  newHospital: any;
+  newKpis: any;
+  newSubgoal: any;
 }
 
 export interface IGoal {
