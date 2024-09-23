@@ -102,7 +102,7 @@ export default class SystemGoalForm extends React.Component<
         if (processedValue !== null) {
           console.log("Formatted Currency:", processedValue);
         } else {
-          console.error("Invalid input. Please enter a valid dollar amount (e.g., 3M, 4B, 1000).");
+          console.error("Invalid input. Please enter a valid dollar amount (e.g., 3M, 4B, 1000).", value);
         }
         break;
 
@@ -312,11 +312,11 @@ export default class SystemGoalForm extends React.Component<
     // const setSubGoals = this.state.subGoal.filter(
     //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     // );
-    console.log("India INDiaaaaaaaaaaaaaaa -------->", this.state.updatedFields);
+    console.log("India USSSSSSSSSSSSS -------->", this.state.updatedFields);
 
-    console.log("Goal Metrix INDiaaaaaaaaaaaaaaa ---------->", goalMetrix)
-    console.log("Sub Goal Group INDiaaaaaaaaaaaaaaa -------------->", subGoalGroup)
-    console.log("KPI Data --> INDiaaaaaaaaaaaaaaa", kpiData)
+    console.log("Goal Metrix USSSSSSSSSSSSS ---------->", goalMetrix)
+    console.log("Sub Goal Group USSSSSSSSSSS -------------->", subGoalGroup)
+    console.log("KPI Data --> USSSSSSSSSSSSSSSSS", kpiData)
 
 
     return (
@@ -572,15 +572,14 @@ export default class SystemGoalForm extends React.Component<
                                     name="MTD_ACTUAL" // Just a generic name
                                     value={this.getInputBasedOnType('Currency', this.state.updatedFields[item.Id]?.MTD_ACTUAL || item.MTD_ACTUAL) || ''} // Get the value from state or default to item.MTD_ACTUAL
                                     onChange={(e) => {
-                                      const formattedValue = this.getInputBasedOnType('Currency', e.target.value); // Format the value on change
-                                      this.handleInputChange(item.Id, index, "MTD_ACTUAL", formattedValue); // Update state on change
+                                      this.handleInputChange(item.Id, index, "MTD_ACTUAL", e.target.value); // Update state on change
                                     }}
                                   />
                                 </td>
                                 <td style={{ width: "67px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>
                                   <input
                                     type="text"
-                                    defaultValue={this.getInputBasedOnType('Currency', item.MTD_BUDGET)}
+                                    defaultValue={item.MTD_BUDGET}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
