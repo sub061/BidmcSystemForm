@@ -76,6 +76,89 @@ export default class SystemGoalForm extends React.Component<
     this.getFilteredMetrixData = this.getFilteredMetrixData.bind(this);
   }
 
+  private getInputBasedOnType = (inputType: any, value: any) => {
+    let processedValue;
+
+    switch (inputType) {
+      case "Percent":
+        if (!isNaN(value) && Number(value) >= 0 && Number(value) <= 100) {
+          processedValue = value + "%";
+        } else {
+          console.error("Invalid input. Percent must be between 0 and 100.");
+        }
+        break;
+
+      case "Number":
+        processedValue = this.formatNumber(value);
+        if (processedValue !== null) {
+          console.log("Formatted Number:", processedValue);
+        } else {
+          console.error("Invalid input. Please enter a valid number (e.g., 3M, 4B, 1000).");
+        }
+        break;
+
+      case "Currency":
+        processedValue = this.formatCurrency(value);
+        if (processedValue !== null) {
+          console.log("Formatted Currency:", processedValue);
+        } else {
+          console.error("Invalid input. Please enter a valid dollar amount (e.g., 3M, 4B, 1000).");
+        }
+        break;
+
+      case "Boolean":
+        value = value.toUpperCase();
+        if (value === 'Y') {
+          processedValue = true;
+        } else if (value === 'N') {
+          processedValue = false;
+        } else {
+          console.error("Invalid input. Please enter 'Y' or 'N'.");
+        }
+        break;
+
+      default:
+        console.error("Unknown input type.");
+    }
+    return processedValue;
+  }
+
+  private formatNumber = (value: any) => {
+    value = value.trim().toUpperCase();
+
+    // Do not convert if value is in shorthand notation (e.g., "3M", "4B")
+    if (value.endsWith('M') || value.endsWith('B')) {
+      return value; // Return as is (e.g., "3M", "4B")
+    } else if (!isNaN(value)) {
+      // Format regular number with commas
+      return Number(value).toLocaleString();
+    }
+    return null; // Invalid input
+  }
+
+  private formatCurrency = (value: any) => {
+    value = value.trim().toUpperCase();
+
+    // If value already contains '$', return it unchanged
+    if (value.startsWith('$')) {
+      return value;
+    }
+
+    // If shorthand notation (M, B), return value as is but prepend with '$'
+    if (value.endsWith('M') || value.endsWith('B')) {
+      return "$" + value; // Keep the "M" or "B"
+    } else if (!isNaN(value)) {
+      // Format regular number as currency with commas
+      return "$" + Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    return null; // Invalid input
+  }
+
+
   private resetFilter = () => {
     this.setState({
       hospitalDropdwon: { text: "Choose Hospital", hospitalId: null },
@@ -191,7 +274,7 @@ export default class SystemGoalForm extends React.Component<
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital, goalMetrix } = this.state;
+    const { hospital, goalMetrix, kpiData } = this.state;
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null) {
@@ -229,10 +312,11 @@ export default class SystemGoalForm extends React.Component<
     // const setSubGoals = this.state.subGoal.filter(
     //   (item: any) => item.GoalId === this.state.systemGoalDropdown.id
     // );
-    console.log("America ----> 22222222222  ", this.state.updatedFields);
+    console.log("India INDiaaaaaaaaaaaaaaa -------->", this.state.updatedFields);
 
-    console.log("Goal Metrix 22222222 -->", goalMetrix)
-    console.log("Sub Goal Group 22222222-->", subGoalGroup)
+    console.log("Goal Metrix INDiaaaaaaaaaaaaaaa ---------->", goalMetrix)
+    console.log("Sub Goal Group INDiaaaaaaaaaaaaaaa -------------->", subGoalGroup)
+    console.log("KPI Data --> INDiaaaaaaaaaaaaaaa", kpiData)
 
 
     return (
@@ -485,21 +569,18 @@ export default class SystemGoalForm extends React.Component<
                                 <td style={{ width: "67px", textAlign: "center", border: '0' }}>
                                   <input
                                     type="text"
-                                    defaultValue={item.MTD_ACTUAL}
-                                    onChange={(e) =>
-                                      this.handleInputChange(
-                                        item.Id,
-                                        index,
-                                        "MTD_ACTUAL",
-                                        e.target.value
-                                      )
-                                    }
+                                    name="MTD_ACTUAL" // Just a generic name
+                                    value={this.getInputBasedOnType('Currency', this.state.updatedFields[item.Id]?.MTD_ACTUAL || item.MTD_ACTUAL) || ''} // Get the value from state or default to item.MTD_ACTUAL
+                                    onChange={(e) => {
+                                      const formattedValue = this.getInputBasedOnType('Currency', e.target.value); // Format the value on change
+                                      this.handleInputChange(item.Id, index, "MTD_ACTUAL", formattedValue); // Update state on change
+                                    }}
                                   />
                                 </td>
                                 <td style={{ width: "67px", textAlign: "center", borderTop: '0', borderBottom: '0' }}>
                                   <input
                                     type="text"
-                                    defaultValue={item.MTD_BUDGET}
+                                    defaultValue={this.getInputBasedOnType('Currency', item.MTD_BUDGET)}
                                     onChange={(e) =>
                                       this.handleInputChange(
                                         item.Id,
