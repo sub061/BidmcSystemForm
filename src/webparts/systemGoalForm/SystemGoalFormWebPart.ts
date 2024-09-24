@@ -42,13 +42,14 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async getKpisData(): Promise<any> {
+  public async getKpisData(): Promise<IKPI[]> {
     try {
-      const response = await fetch("https://192.168.1.8/api/kpis");
+      const response = await fetch("https://localhost:7087/api/kpis");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
       const data = await response.json();
+      console.log("api kpi", data);
       return data;
     } catch (error) {
       console.error("Error fetching Kpi data:", error);
@@ -57,16 +58,26 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   }
 
   // Get List for metrix
+ 
+
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal Metrix')/Items?$top=5000`;
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(
-      requestUrl,
-      SPHttpClient.configurations.v1
-    );
-    const data = await response.json();
-    console.log("Metric Data UUUUUUUUUU:", data);
-    return data.value;
+    try {
+      const response = await fetch("https://localhost:7087/api/summary");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("api summary", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching summary data:", error);
+      throw error;
+    }
   }
+
+
+
+
 
   // List For Sub Goals
   public async getGoalConfiguration(): Promise<IGoal[]> {
@@ -83,11 +94,12 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getSubGoalata(): Promise<any> {
     try {
-      const response = await fetch("https://192.168.1.8/api/subgoals");
+      const response = await fetch("https://localhost:7087/api/subgoals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
       const data = await response.json();
+      console.log("response api subgoal data", data);
       return data;
     } catch (error) {
       console.error("Error fetching subgoals data:", error);
@@ -109,12 +121,12 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getHospitalListData(): Promise<any> {
     try {
-      const response = await fetch("https://192.168.1.8/api/hospitals");
+      const response = await fetch("https://localhost:7087/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Response Data ---->", data);
+      console.log("Response API hospital  Data ---->", data);
       return data;
     } catch (error) {
       console.error("Error fetching hospital data:", error);
@@ -123,23 +135,28 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   }
 
   // Get List for System Goal
+
   public async getSytemGoalConfiguration(): Promise<ISystemGoal[]> {
-    const requestUrl = `${this.context.pageContext.web.absoluteUrl}/_api/web/Lists/GetByTitle('Goal')/Items`;
-    const response: SPHttpClientResponse = await this.context.spHttpClient.get(
-      requestUrl,
-      SPHttpClient.configurations.v1
-    );
-    const data = await response.json();
-    // console.log("Sytem Goal --->", data.value);
-    return data.value;
+    try {
+      const response = await fetch("https://localhost:7087/api/pillers");
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("Response API pillers  Data ---->", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching pillers data:", error);
+      throw error;
+    }
   }
 
   public async render(): Promise<void> {
     if (this.domElement) {
       try {
-        const getKPI = await this.getKPIConfiguration();
+        // const getKPI = await this.getKPIConfiguration();
         const getGoalMetrix = await this.getGoalMetrixConfiguration();
-        const getHospital = await this.getHospitalConfiguration();
+        //const getHospital = await this.getHospitalConfiguration();
         const getSystemGoal = await this.getSytemGoalConfiguration();
         const getGoal = await this.getGoalConfiguration();
         const newHospital = await this.getHospitalListData();
@@ -156,10 +173,10 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
             hasTeamsContext: !!this.context.sdks.microsoftTeams,
             userDisplayName: this.context.pageContext.user.displayName,
             getGoal: getGoal,
-            getHospital: getHospital,
+            getHospital: newHospital,
             getSystemGoal: getSystemGoal,
             getGoalMetrix: getGoalMetrix,
-            getKPI: getKPI,
+            getKPI: newKpis,
             newHospital: newHospital,
             newKpis: newKpis,
             newSubgoal: newSubgoal,

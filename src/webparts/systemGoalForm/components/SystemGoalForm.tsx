@@ -85,22 +85,49 @@ export default class SystemGoalForm extends React.Component<
     });
   };
 
-  private handleInputChange = (id: number, index: number, field: string, value: any) => {
-    const updatedFields = { ...this.state.updatedFields };
-    console.log("Index --->", index)
-    // If the index is not in updatedFields, initialize it
-    if (!updatedFields[id]) {
-      updatedFields[id] = { Id: id }; // Initialize with Id
+  // private handleInputChange = (id: number, index: number, field: string, value: any) => {
+  //   const updatedFields = { ...this.state.updatedFields };
+  //   console.log("Index --->", index)
+  //   // If the index is not in updatedFields, initialize it
+  //   if (!updatedFields[id]) {
+  //     updatedFields[id] = { Id: id }; // Initialize with Id
+  //   }
+
+  //   // Update the specific field for the index
+  //   updatedFields[id][field] = value;
+
+  //   // Update the state
+  //   this.setState({
+  //     updatedFields,
+  //   });
+  // };
+
+  private handleInputChange = (
+    KPIId: number,
+    index: number,
+    field: string,
+    value: any
+  ) => {
+    // Copy the current array from the state
+    let updatedArray = [...this.state.updatedFields];
+    
+    // Find the index in the array where KPIId matches
+    const existingIndex = updatedArray.findIndex(item => item.KPIId === KPIId);
+  
+    if (existingIndex === -1) {
+      // If no entry with this KPIId, create a new one
+      updatedArray.push({ KPIId, [field]: value });
+    } else {
+      // If KPIId already exists, update the corresponding field
+      updatedArray[existingIndex][field] = value;
     }
-
-    // Update the specific field for the index
-    updatedFields[id][field] = value;
-
-    // Update the state
+  
+    // Update the state with the new array
     this.setState({
-      updatedFields,
+      updatedFields: updatedArray
     });
   };
+  
 
   private editListItem = async (e: any) => {
     e.preventDefault();
@@ -160,6 +187,8 @@ export default class SystemGoalForm extends React.Component<
   // Get KPI Title
   private getKPITitle = (KpiId: number) => {
     const { kpiData } = this.state;
+    console.log("kpi title", kpiData);
+    console.log("kpi id", KpiId);
     if (!kpiData) return "Unknown KPI"; // Check if dataKPI is null
     const kpi = kpiData.find((kpi: any) => kpi.Id === KpiId);
     return kpi ? kpi.Title : "Unknown KPI";
@@ -179,19 +208,25 @@ export default class SystemGoalForm extends React.Component<
       // this.state.subGoalDropdown.goalId === null &&
       this.state.hospitalDropdwon.hospitalId === null
     )
-      return [];
+   {
+    console.log(" new filter if  cccccc" , );
+    return [];
+   }
+     
     const metrixData = this.state?.goalMetrix?.filter(
       (item: any) =>
         // this.state.subGoalDropdown.goalId === item.SubGoalId &&
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
+    console.log(" new filter cccccc" , metrixData);
     return metrixData || [];
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital, kpiData } = this.state;
+    const { hospital, kpiData , goalMetrix,updatedFields } = this.state;
 
+    console.log('get new gola metrix', goalMetrix);
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null) {
         acc[item.Id] = { heading: item, subItems: [] };
@@ -223,8 +258,9 @@ export default class SystemGoalForm extends React.Component<
         return result;
       }, {});
 
-    console.log("New Hospital Shubham Data --->", hospital);
+    console.log("Asli Hospital --->", hospital);
     console.log("New Kpi Data --->", kpiData);
+    console.log("Updated Fields Array --->", updatedFields)
 
 
     return (
@@ -458,7 +494,7 @@ export default class SystemGoalForm extends React.Component<
                           <select defaultValue={item.ReportType !== null ? item.ReportType : "Select"}
                             onChange={(e) =>
                               this.handleInputChange(
-                                item.Id,
+                                item.KPIId,
                                 index,
                                 "ReportType",
                                 e.target.value
@@ -480,7 +516,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.MTD_ACTUAL}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "MTD_ACTUAL",
                                         e.target.value
@@ -494,7 +530,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.MTD_BUDGET}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "MTD_BUDGET",
                                         e.target.value
@@ -508,7 +544,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.MTD_PRIOR_YEAR}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "MTD_PRIOR_YEAR",
                                         e.target.value
@@ -532,7 +568,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.YTD_ACTUAL}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "YTD_ACTUAL",
                                         e.target.value
@@ -546,7 +582,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.YTD_BUDGET}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "YTD_BUDGET",
                                         e.target.value
@@ -560,7 +596,7 @@ export default class SystemGoalForm extends React.Component<
                                     defaultValue={item.YTD_PRIOR_YEAR}
                                     onChange={(e) =>
                                       this.handleInputChange(
-                                        item.Id,
+                                        item.KPIId,
                                         index,
                                         "YTD_PRIOR_YEAR",
                                         e.target.value
@@ -579,7 +615,7 @@ export default class SystemGoalForm extends React.Component<
                             defaultValue={item.URL}
                             onChange={(e) =>
                               this.handleInputChange(
-                                item.Id,
+                                item.KPIId,
                                 index,
                                 "URL",
                                 e.target.value
@@ -592,7 +628,7 @@ export default class SystemGoalForm extends React.Component<
                             defaultValue={item.Comment}
                             onChange={(e) =>
                               this.handleInputChange(
-                                item.Id,
+                                item.KPIId,
                                 index,
                                 "Comment",
                                 e.target.value
