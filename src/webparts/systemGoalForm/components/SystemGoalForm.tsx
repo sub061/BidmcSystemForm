@@ -111,7 +111,6 @@ export default class SystemGoalForm extends React.Component<
     // Copy the current array from the state
     let updatedArray = [...this.state.updatedFields];
     
-    // Find the index in the array where KPIId matches
     const existingIndex = updatedArray.findIndex(item => item.KPIId === KPIId);
   
     if (existingIndex === -1) {
