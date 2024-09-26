@@ -228,7 +228,7 @@ export default class SystemGoalForm extends React.Component<
 
   private editListItem = (e: any) => {
     e.preventDefault();
-    const url = "https://localhost:7001/api/summary"; // Replace with your API URL
+    const url = "https://systemgoalapi.bilh.org/api/summary"; // Replace with your API URL
 
     const updatedArrayParam = [...this.state.updatedFields];
     // Send the PUT request with the array of objects

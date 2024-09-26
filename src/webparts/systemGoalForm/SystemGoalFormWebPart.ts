@@ -44,7 +44,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getKpisData(): Promise<IKPI[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/kpis");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/kpis");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -62,7 +62,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
 
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/kpisummary");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/kpisummary");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -93,7 +93,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getSubGoalata(): Promise<any> {
     try {
-      const response = await fetch("https://localhost:7001/api/subgoals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/subgoals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -120,7 +120,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getHospitalListData(): Promise<any> {
     try {
-      const response = await fetch("https://localhost:7001/api/hospitals");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -137,7 +137,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
 
   public async getSytemGoalConfiguration(): Promise<ISystemGoal[]> {
     try {
-      const response = await fetch("https://localhost:7001/api/pillers");
+      const response = await fetch("https://systemgoalapi.bilh.org/api/pillers");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
