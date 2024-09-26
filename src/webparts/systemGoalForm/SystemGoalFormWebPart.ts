@@ -44,7 +44,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getKpisData(): Promise<IKPI[]> {
     try {
-      const response = await fetch("https://localhost:7087/api/kpis");
+      const response = await fetch("https://localhost:7001/api/kpis");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -62,12 +62,11 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
 
   public async getGoalMetrixConfiguration(): Promise<IGoalMetrix[]> {
     try {
-      const response = await fetch("https://localhost:7087/api/summary");
+      const response = await fetch("https://localhost:7001/api/kpisummary");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("api summary", data);
       return data;
     } catch (error) {
       console.error("Error fetching summary data:", error);
@@ -94,7 +93,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getSubGoalata(): Promise<any> {
     try {
-      const response = await fetch("https://localhost:7087/api/subgoals");
+      const response = await fetch("https://localhost:7001/api/subgoals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -121,7 +120,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getHospitalListData(): Promise<any> {
     try {
-      const response = await fetch("https://localhost:7087/api/hospitals");
+      const response = await fetch("https://localhost:7001/api/hospitals");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -138,7 +137,7 @@ export default class SystemGoalFormWebPart extends BaseClientSideWebPart<ISystem
 
   public async getSytemGoalConfiguration(): Promise<ISystemGoal[]> {
     try {
-      const response = await fetch("https://localhost:7087/api/pillers");
+      const response = await fetch("https://localhost:7001/api/pillers");
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
