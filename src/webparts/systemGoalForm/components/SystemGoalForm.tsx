@@ -162,44 +162,12 @@ export default class SystemGoalForm extends React.Component<
     } else if (!isNaN(value)) {
       // Format regular number as currency with commas
       return (
-        "$" +
-        Number(value).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      );
+        "$" + value)
     }
 
     return null; // Invalid input
   };
 
-  // private editListItem = async (e: any) => {
-  //   e.preventDefault();
-  //   const { updatedFields } = this.state;
-  //   // Prepare the updated data by using the Id from updatedFields
-  //   const updatedData: any = Object.keys(updatedFields).map((index) => {
-  //     const { Id, ...updatedItem } = updatedFields[index]; // Extract Id from updatedFields
-  //     return {
-  //       Id,
-  //       ...updatedItem,
-  //     };
-  //   });
-  //   const list = this.state._sp.web.lists.getByTitle("Goal Metrix");
-
-  //   try {
-  //     // Iterate over updated data to update each item individually
-  //     for (let i = 0; i < updatedData.length; i++) {
-  //       const data = updatedData[i];
-  //       const { Id, ...fieldsToUpdate } = data;
-  //       await list.items.getById(Id).update(fieldsToUpdate);
-  //     }
-  //     window.alert(`List item edited successfully`);
-  //   } catch (e) {
-  //     console.error("Error updating list item", e);
-  //   } finally {
-  //     window.location.reload();
-  //   }
-  // };
 
   handleItemClick(value: any) {
     console.log("Hospital dropDown data --------->", value);
@@ -265,6 +233,8 @@ export default class SystemGoalForm extends React.Component<
   ): void => {
     console.log(index);
 
+    console.log("Valueeeeeeeeeeeeeeeeeeee", value)
+
     // Handle different value types and remove formatting
     let formatedValue = value;
     switch (valueType) {
@@ -272,7 +242,7 @@ export default class SystemGoalForm extends React.Component<
         formatedValue = value.replace("%", ""); // Remove the % sign for internal storage
         break;
       case "C": // Currency
-        formatedValue = value.replace(/[^0-9.-]+/g, ""); // Remove any non-numeric symbols (e.g., $)
+        formatedValue = value // Remove any non-numeric symbols (e.g., $)
         break;
       case "N": // Number
         formatedValue = value; // No need to format numbers, just use the value directly
@@ -291,7 +261,6 @@ export default class SystemGoalForm extends React.Component<
         break;
 
       default:
-        console.error("Unknown value type:", valueType);
         formatedValue = value; // Keep the original value if the type is unknown
     }
 
