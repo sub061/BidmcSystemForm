@@ -363,11 +363,12 @@ export default class SystemGoalForm extends React.Component<
 
     console.log("get new gola metrix", goalMetrix);
     const headings = hospital.reduce((acc, item) => {
-      if (item.DivisionId === null) {
+      if (item.DivisionId === null && item.Id !== 22) {
         acc[item.Id] = { heading: item, subItems: [] };
       }
       return acc;
     }, {} as Record<number, { heading: any | null; subItems: any[] }>);
+
 
     const systemGoalGroupData = hospital.reduce((acc, item) => {
       if (item.DivisionId !== null) {
@@ -395,7 +396,7 @@ export default class SystemGoalForm extends React.Component<
       {}
     );
 
-    console.log("Updated Fields Array --->", updatedFields);
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA --->", updatedFields);
 
     return (
       <>
@@ -433,7 +434,7 @@ export default class SystemGoalForm extends React.Component<
                         className="dropdown-item title"
                         href="#"
                         onClick={() =>
-                          this.handleItemClick({ Title: "BILH", id: undefined })
+                          this.handleItemClick({ Title: "BILH", Id: 22 })
                         }
                       >
                         BILH
