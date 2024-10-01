@@ -101,6 +101,7 @@ export default class SystemGoalForm extends React.Component<
         break;
 
       case "N":
+        console.log("sAGARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
         processedValue = this.formatNumber(value);
         break;
 
@@ -137,16 +138,18 @@ export default class SystemGoalForm extends React.Component<
 
   private formatNumber = (value: any) => {
     value = value.trim().toUpperCase();
-
     // Do not convert if value is in shorthand notation (e.g., "3M", "4B")
-    if (value.endsWith("M") || value.endsWith("B")) {
+    if (value.endsWith("M") || value.endsWith("B") || value.includes(",")) {
       return value; // Return as is (e.g., "3M", "4B")
     } else if (!isNaN(value)) {
       // Format regular number with commas
-      return Number(value).toLocaleString();
+      return Number(value).toLocaleString()
+    } else {
+      alert("Please enter a valid number");
+      return null; // Invalid input
     }
-    return null; // Invalid input
   };
+
 
   private formatCurrency = (value: any) => {
     value = value.trim().toUpperCase();
@@ -233,8 +236,6 @@ export default class SystemGoalForm extends React.Component<
   ): void => {
     console.log(index);
 
-    console.log("Valueeeeeeeeeeeeeeeeeeee", value)
-
     // Handle different value types and remove formatting
     let formatedValue = value;
     switch (valueType) {
@@ -242,24 +243,29 @@ export default class SystemGoalForm extends React.Component<
         formatedValue = value.replace("%", ""); // Remove the % sign for internal storage
         break;
       case "C": // Currency
-        formatedValue = value // Remove any non-numeric symbols (e.g., $)
+        formatedValue = value; // Remove any non-numeric symbols (e.g., $)
         break;
       case "N": // Number
-        formatedValue = value; // No need to format numbers, just use the value directly
+        // Check if the value contains only numeric characters
+        if (isNaN(value)) {
+          alert("Please enter only numbers");
+          return; // Exit the function if the input is invalid
+        }
+        console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
+        formatedValue = value; // No need to format valid numbers, just use the value directly
         break;
       case "B": // Boolean (Y/N)
         // Coerce value to a string, then uppercase it
         const stringValue = String(value).toUpperCase();
-        formatedValue =
-          stringValue === "Y" ? "Y" : stringValue === "N" ? "N" : null;
-        if (formatedValue === null) {
-          console.error(
-            "Invalid boolean input. Expected 'Y' or 'N', got:",
-            value
-          );
-        }
-        break;
 
+        // Allow empty input (backspace) and valid Y/N
+        if (stringValue !== "" && stringValue !== "Y" && stringValue !== "N") {
+          alert("Please enter only 'Y' or 'N'");
+          return; // Exit the function if the input is invalid
+        }
+
+        formatedValue = stringValue; // Only Y, N, or empty is valid
+        break;
       default:
         formatedValue = value; // Keep the original value if the type is unknown
     }
@@ -282,12 +288,14 @@ export default class SystemGoalForm extends React.Component<
         [field]: formatedValue,
       };
     }
-
     // Set the updated state
     this.setState({
       updatedFields: updatedArray,
     });
   };
+
+
+
 
   // Get KPI Title
   private getKPITitle = (KpiId: number) => {
@@ -330,7 +338,7 @@ export default class SystemGoalForm extends React.Component<
   public render(): React.ReactElement<ISystemGoalFormProps> {
     const { hospital, goalMetrix, updatedFields } = this.state;
 
-    console.log("get new gola metrix", goalMetrix);
+    console.log("get new gola metrix AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", goalMetrix);
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null && item.Id !== 22) {
         acc[item.Id] = { heading: item, subItems: [] };
