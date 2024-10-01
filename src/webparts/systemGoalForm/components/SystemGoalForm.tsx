@@ -201,7 +201,11 @@ export default class SystemGoalForm extends React.Component<
     e.preventDefault();
     const url = "https://systemgoalapi.bilh.org/api/summary"; // Replace with your API URL
 
-    const updatedArrayParam = [...this.state.updatedFields];
+    const updatedArrayParam = this.state.updatedFields.map((item: any) => ({
+      ...item,
+      REC_MODIFY_BY: this.state.context._pageContext.user.email
+    }));
+
     // Send the PUT request with the array of objects
     fetch(url, {
       method: "PUT",
@@ -336,9 +340,11 @@ export default class SystemGoalForm extends React.Component<
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital, goalMetrix, updatedFields } = this.state;
+    const { hospital, goalMetrix, updatedFields, context } = this.state;
 
-    console.log("get new gola metrix AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", goalMetrix);
+    console.log("ssssssssssssssssssssssssssss", goalMetrix);
+    console.log("context", context._pageContext.user.displayName + context._pageContext.user.email);
+
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null && item.Id !== 22) {
         acc[item.Id] = { heading: item, subItems: [] };
