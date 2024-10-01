@@ -88,20 +88,17 @@ export default class SystemGoalForm extends React.Component<
   private getInputBasedOnType = (inputType: string, value: any) => {
     let processedValue: any;
 
-    console.log("Input type:", inputType);
-
     switch (inputType) {
       case "P":
-        if (!isNaN(value)) {
-          // Append % only for display purposes
-          processedValue = `${value}%`;
+        if (value) {
+          processedValue = this.formatPercent(value);
         } else {
+          processedValue = ""
           console.error("Invalid input. Percent must be a valid number.");
         }
         break;
 
       case "N":
-        console.log("sAGARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
         processedValue = this.formatNumber(value);
         break;
 
@@ -131,8 +128,6 @@ export default class SystemGoalForm extends React.Component<
         processedValue = value ?? " "; // Return raw value for unknown types
         console.error("Unknown input type:", inputType);
     }
-
-    console.log("Processed Value:", processedValue);
     return processedValue ?? "";
   };
 
@@ -171,9 +166,21 @@ export default class SystemGoalForm extends React.Component<
     return null; // Invalid input
   };
 
+  private formatPercent = (value: any) => {
+    console.log("Value ---->", value)
+    // If value is an empty string or null, return it as is
+    if (value === "" || value === null) {
+      console.log("Retru Value ---->", value)
+      return value;
+    }
+    // Remove any existing percentage sign and return the formatted value
+    value = value.replace("%", "");
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ---->", value)
+    return value + '%';
+  }
+
 
   handleItemClick(value: any) {
-    console.log("Hospital dropDown data --------->", value);
     this.setState({
       hospitalDropdwon: { text: value.Title, hospitalId: value.Id },
       subGoalDropdown: { text: "Choose Sub Goal", goalId: null },
@@ -215,7 +222,6 @@ export default class SystemGoalForm extends React.Component<
       body: JSON.stringify(updatedArrayParam),
     })
       .then((response) => {
-        console.log("REsponse --->", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -240,38 +246,42 @@ export default class SystemGoalForm extends React.Component<
   ): void => {
     console.log(index);
 
-    // Handle different value types and remove formatting
-    let formatedValue = value;
-    switch (valueType) {
-      case "P": // Percentage
-        formatedValue = value.replace("%", ""); // Remove the % sign for internal storage
-        break;
-      case "C": // Currency
-        formatedValue = value; // Remove any non-numeric symbols (e.g., $)
-        break;
-      case "N": // Number
-        // Check if the value contains only numeric characters
-        if (isNaN(value)) {
-          alert("Please enter only numbers");
-          return; // Exit the function if the input is invalid
-        }
-        console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP")
-        formatedValue = value; // No need to format valid numbers, just use the value directly
-        break;
-      case "B": // Boolean (Y/N)
-        // Coerce value to a string, then uppercase it
-        const stringValue = String(value).toUpperCase();
+    let formattedValue = value;
 
-        // Allow empty input (backspace) and valid Y/N
-        if (stringValue !== "" && stringValue !== "Y" && stringValue !== "N") {
-          alert("Please enter only 'Y' or 'N'");
-          return; // Exit the function if the input is invalid
-        }
+    // If the field is URL or Comment, skip the switch and keep the value as it is
+    if (field === "URL" || field === "Comment") {
+      formattedValue = value;
+    } else {
+      // Proceed with the switch for other value types
+      switch (valueType) {
+        case "P": // Percentage
+          formattedValue = this.formatPercent(value);
+          break;
+        case "C": // Currency
+          formattedValue = value; // Keep the value, you might later add formatting here
+          break;
+        case "N": // Number
+          // Check if the value contains only numeric characters
+          if (isNaN(value)) {
+            alert("Please enter only numbers");
+            return; // Exit the function if the input is invalid
+          }
+          formattedValue = value; // No need to format valid numbers, just use the value directly
+          break;
+        case "B": // Boolean (Y/N)
+          const stringValue = String(value).toUpperCase();
 
-        formatedValue = stringValue; // Only Y, N, or empty is valid
-        break;
-      default:
-        formatedValue = value; // Keep the original value if the type is unknown
+          // Allow empty input (backspace) and valid Y/N
+          if (stringValue !== "" && stringValue !== "Y" && stringValue !== "N") {
+            alert("Please enter only 'Y' or 'N'");
+            return; // Exit the function if the input is invalid
+          }
+
+          formattedValue = stringValue; // Only Y, N, or empty is valid
+          break;
+        default:
+          formattedValue = value; // Keep the original value if the type is unknown
+      }
     }
 
     // Copy the current state to avoid direct mutation
@@ -284,21 +294,20 @@ export default class SystemGoalForm extends React.Component<
 
     // If item doesn't exist in the array, add it
     if (existingIndex === -1) {
-      updatedArray.push({ ...item, KPIId, [field]: formatedValue });
+      updatedArray.push({ ...item, KPIId, [field]: formattedValue });
     } else {
       // If item exists, update the field with the formatted value
       updatedArray[existingIndex] = {
         ...updatedArray[existingIndex],
-        [field]: formatedValue,
+        [field]: formattedValue,
       };
     }
+
     // Set the updated state
     this.setState({
       updatedFields: updatedArray,
     });
   };
-
-
 
 
   // Get KPI Title
@@ -325,7 +334,6 @@ export default class SystemGoalForm extends React.Component<
       // this.state.subGoalDropdown.goalId === null &&
       this.state.hospitalDropdwon.hospitalId === null
     ) {
-      console.log(" new filter if  cccccc");
       return [];
     }
 
@@ -335,15 +343,13 @@ export default class SystemGoalForm extends React.Component<
         this.state.hospitalDropdwon.hospitalId === item.HospitalId &&
         this.state.systemGoalDropdown.id === item.GoalId
     );
-    console.log(" new filter cccccc", metrixData);
     return metrixData || [];
   }
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
-    const { hospital, goalMetrix, updatedFields, context } = this.state;
+    const { hospital, goalMetrix, updatedFields } = this.state;
 
     console.log("ssssssssssssssssssssssssssss", goalMetrix);
-    console.log("context", context._pageContext.user.displayName + context._pageContext.user.email);
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null && item.Id !== 22) {
@@ -379,7 +385,7 @@ export default class SystemGoalForm extends React.Component<
       {}
     );
 
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA --->", updatedFields);
+    console.log("Updatede Filedsssssssss --->", updatedFields);
 
     return (
       <>
