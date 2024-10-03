@@ -550,8 +550,8 @@ export default class SystemGoalForm extends React.Component<
                 <th style={{ width: "50px", textAlign: "center" }}>Q/M</th>
                 <th
                   style={{
-                    minWidth: "201px",
-                    maxWidth: "201px",
+                    minWidth: "252px",
+                    maxWidth: "252px",
                     textAlign: "center",
                   }}
                 >
@@ -559,8 +559,8 @@ export default class SystemGoalForm extends React.Component<
                 </th>
                 <th
                   style={{
-                    minWidth: "201px",
-                    maxWidth: "201px",
+                    minWidth: "252px",
+                    maxWidth: "252px",
                     textAlign: "center",
                   }}
                 >
@@ -588,7 +588,7 @@ export default class SystemGoalForm extends React.Component<
                       <th style={{ padding: "0" }}>
                         {/* <div className="table_in_div">
                         <div>Actual</div>
-                        <div>Budget or Target</div>
+                        <div>Budget/Tgt</div>
                         <div>Prior Yr</div>
                         </div> */}
                         <table
@@ -602,8 +602,8 @@ export default class SystemGoalForm extends React.Component<
                             <tr>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   border: "0",
                                 }}
@@ -612,19 +612,19 @@ export default class SystemGoalForm extends React.Component<
                               </th>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   borderTop: "0",
                                   borderBottom: "0",
                                 }}
                               >
-                                Budget or Target
+                                Budget/Tgt
                               </th>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   border: "0",
                                 }}
@@ -647,8 +647,8 @@ export default class SystemGoalForm extends React.Component<
                             <tr>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   border: "0",
                                 }}
@@ -657,19 +657,19 @@ export default class SystemGoalForm extends React.Component<
                               </th>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   borderTop: "0",
                                   borderBottom: "0",
                                 }}
                               >
-                                Budget or Target
+                                Budget/Tgt
                               </th>
                               <th
                                 style={{
-                                  minWidth: "67px",
-                                  maxWidth: "67px",
+                                  minWidth: "84px",
+                                  maxWidth: "84px",
                                   textAlign: "center",
                                   border: "0",
                                 }}
@@ -744,7 +744,7 @@ export default class SystemGoalForm extends React.Component<
                               <tr>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     border: "0",
                                   }}
@@ -772,7 +772,7 @@ export default class SystemGoalForm extends React.Component<
                                 </td>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     borderTop: "0",
                                     borderBottom: "0",
@@ -803,7 +803,7 @@ export default class SystemGoalForm extends React.Component<
                                 </td>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     border: "0",
                                   }}
@@ -846,7 +846,7 @@ export default class SystemGoalForm extends React.Component<
                               <tr>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     border: "0",
                                   }}
@@ -876,7 +876,7 @@ export default class SystemGoalForm extends React.Component<
                                 </td>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     borderTop: "0",
                                     borderBottom: "0",
@@ -907,7 +907,7 @@ export default class SystemGoalForm extends React.Component<
                                 </td>
                                 <td
                                   style={{
-                                    width: "67px",
+                                    width: "84px",
                                     textAlign: "center",
                                     border: "0",
                                   }}
