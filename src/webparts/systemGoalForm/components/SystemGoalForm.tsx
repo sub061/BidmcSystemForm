@@ -231,8 +231,10 @@ export default class SystemGoalForm extends React.Component<
         console.log(data);
       }) // Handle the response data
       .catch((error) => {
-        alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
-        console.error("Error:", error)
+        alert(
+          "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
+        );
+        console.error("Error:", error);
       });
   };
 
