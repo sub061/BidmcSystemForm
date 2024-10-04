@@ -230,7 +230,10 @@ export default class SystemGoalForm extends React.Component<
         window.location.reload();
         console.log(data);
       }) // Handle the response data
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
+        console.error("Error:", error)
+      });
   };
 
   private handleInputChange = (
