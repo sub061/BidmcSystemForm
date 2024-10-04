@@ -210,8 +210,10 @@ export default class SystemGoalForm extends React.Component<
 
     const updatedArrayParam = this.state.updatedFields.map((item: any) => ({
       ...item,
-      REC_MODIFY_BY: this.state.context._pageContext.user.email
+      REC_MODIFY_BY: this.state.context._pageContext.user.email,
+      ReportType: item.ReportType ? item.ReportType : 'Q' 
     }));
+
 
     // Send the PUT request with the array of objects
     fetch(url, {
@@ -230,11 +232,10 @@ export default class SystemGoalForm extends React.Component<
         return response.json(); // Parse the response JSON
       })
       .then((data) => {
-        window.location.reload();
         console.log(data);
       }) // Handle the response data
       .catch((error) => {
-        alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
+        // alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
         console.error("Error:", error)
       });
   };
@@ -350,7 +351,7 @@ export default class SystemGoalForm extends React.Component<
   public render(): React.ReactElement<ISystemGoalFormProps> {
     const { hospital, goalMetrix, updatedFields } = this.state;
 
-    console.log("ssssssssssssssssssssssssssss", goalMetrix);
+    console.log("Asli AAAAAAAAAAAAAAAAAAAAAA ------------------->", goalMetrix);
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null && item.Id !== 22) {
