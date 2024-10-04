@@ -252,7 +252,7 @@ export default class SystemGoalForm extends React.Component<
     let formattedValue = value;
 
     // If the field is URL or Comment, skip the switch and keep the value as it is
-    if (field === "URL" || field === "Comment") {
+    if (field === "URL" || field === "Comment" || field === "ReportType") {
       formattedValue = value;
     } else {
       // Proceed with the switch for other value types
