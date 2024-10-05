@@ -93,7 +93,7 @@ export default class SystemGoalForm extends React.Component<
         if (value) {
           processedValue = this.formatPercent(value);
         } else {
-          processedValue = ""
+          processedValue = "";
           console.error("Invalid input. Percent must be a valid number.");
         }
         break;
@@ -138,13 +138,12 @@ export default class SystemGoalForm extends React.Component<
       return value; // Return as is (e.g., "3M", "4B")
     } else if (!isNaN(value)) {
       // Format regular number with commas
-      return Number(value).toLocaleString()
+      return Number(value).toLocaleString();
     } else {
       alert("Please enter a valid number");
       return null; // Invalid input
     }
   };
-
 
   private formatCurrency = (value: any) => {
     value = value.trim().toUpperCase();
@@ -159,26 +158,24 @@ export default class SystemGoalForm extends React.Component<
       return "$" + value; // Keep the "M" or "B"
     } else if (!isNaN(value)) {
       // Format regular number as currency with commas
-      return (
-        "$" + value)
+      return "$" + value;
     }
 
     return null; // Invalid input
   };
 
   private formatPercent = (value: any) => {
-    console.log("Value ---->", value)
+    console.log("Value ---->", value);
     // If value is an empty string or null, return it as is
     if (value === "" || value === null) {
-      console.log("Retru Value ---->", value)
+      console.log("Retru Value ---->", value);
       return value;
     }
     // Remove any existing percentage sign and return the formatted value
     value = value.replace("%", "");
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ---->", value)
-    return value + '%';
-  }
-
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ---->", value);
+    return value + "%";
+  };
 
   handleItemClick(value: any) {
     this.setState({
@@ -238,7 +235,9 @@ export default class SystemGoalForm extends React.Component<
         alert("Data Updated Successfully");
       })
       .catch((error) => {
-        alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
+        alert(
+          "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
+        );
         console.error("Error:", error);
       });
   };
@@ -280,7 +279,11 @@ export default class SystemGoalForm extends React.Component<
           const stringValue = String(value).toUpperCase();
 
           // Allow empty input (backspace) and valid Y/N
-          if (stringValue !== "" && stringValue !== "Y" && stringValue !== "N") {
+          if (
+            stringValue !== "" &&
+            stringValue !== "Y" &&
+            stringValue !== "N"
+          ) {
             alert("Please enter only 'Y' or 'N'");
             return; // Exit the function if the input is invalid
           }
@@ -317,7 +320,6 @@ export default class SystemGoalForm extends React.Component<
     });
   };
 
-
   // Get KPI Title
   private getKPITitle = (KpiId: number) => {
     const { kpiData } = this.state;
@@ -342,15 +344,15 @@ export default class SystemGoalForm extends React.Component<
     if (!systemGoalDropdown?.id && !hospitalDropdwon?.hospitalId) {
       return [];
     }
-    const metrixData = goalMetrix?.filter((item: any) =>
-      hospitalDropdwon?.hospitalId === item.HospitalId &&
-      systemGoalDropdown?.id === item.GoalId &&
-      item.IsAvaliable
+    const metrixData = goalMetrix?.filter(
+      (item: any) =>
+        hospitalDropdwon?.hospitalId === item.HospitalId &&
+        systemGoalDropdown?.id === item.GoalId &&
+        item.IsAvaliable
     );
 
     return metrixData || [];
   }
-
 
   public render(): React.ReactElement<ISystemGoalFormProps> {
     const { hospital, goalMetrix, updatedFields } = this.state;
@@ -363,7 +365,6 @@ export default class SystemGoalForm extends React.Component<
       }
       return acc;
     }, {} as Record<number, { heading: any | null; subItems: any[] }>);
-
 
     const systemGoalGroupData = hospital.reduce((acc, item) => {
       if (item.DivisionId !== null) {
