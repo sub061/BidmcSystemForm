@@ -211,9 +211,8 @@ export default class SystemGoalForm extends React.Component<
     const updatedArrayParam = this.state.updatedFields.map((item: any) => ({
       ...item,
       REC_MODIFY_BY: this.state.context._pageContext.user.email,
-      ReportType: item.ReportType ? item.ReportType : 'Q' 
+      ReportType: item.ReportType ? item.ReportType : 'Q'
     }));
-
 
     // Send the PUT request with the array of objects
     fetch(url, {
@@ -227,18 +226,23 @@ export default class SystemGoalForm extends React.Component<
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        alert("Data Updated Successfully");
-        window.location.reload();
-        return response.json(); // Parse the response JSON
+
+        // Check if response body has content
+        return response.text().then(text => {
+          return text ? JSON.parse(text) : {};  // Parse JSON only if there is content
+        });
       })
       .then((data) => {
         console.log(data);
-      }) // Handle the response data
+        window.location.reload()
+        alert("Data Updated Successfully");
+      })
       .catch((error) => {
-        // alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
-        console.error("Error:", error)
+        alert("Sorry for the inconvenience. We are unable to database, Please contact site Administrator")
+        console.error("Error:", error);
       });
   };
+
 
   private handleInputChange = (
     item: any,
