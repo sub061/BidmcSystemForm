@@ -660,7 +660,7 @@ export default class SystemGoalForm extends React.Component<
                                   borderBottom: "0",
                                 }}
                               >
-                                Budget or Target
+                                Budget / Tgt
                               </th>
                               <th
                                 style={{
@@ -705,7 +705,7 @@ export default class SystemGoalForm extends React.Component<
                                   borderBottom: "0",
                                 }}
                               >
-                                Budget or Target
+                                Budget / Tgt
                               </th>
                               <th
                                 style={{
