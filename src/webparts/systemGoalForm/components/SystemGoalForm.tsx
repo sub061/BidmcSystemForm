@@ -35,6 +35,7 @@ interface ISystemGoalFormState {
   apiUrl: string;
   context: any;
   _sp: SPFI;
+  isloading: boolean
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -68,6 +69,7 @@ export default class SystemGoalForm extends React.Component<
         text: "Choose Sub Goal",
         goalId: null,
       },
+      isloading: false
     };
     // const _sp: SPFI = getSP(props.context);
     this.handleItemClick = this.handleItemClick.bind(this);
@@ -210,7 +212,9 @@ export default class SystemGoalForm extends React.Component<
       REC_MODIFY_BY: this.state.context._pageContext.user.email,
       ReportType: item.ReportType ? item.ReportType : 'Q'
     }));
-
+    this.setState({
+      isloading: true
+    })
     // Send the PUT request with the array of objects
     fetch(url, {
       method: "PUT",
@@ -231,13 +235,25 @@ export default class SystemGoalForm extends React.Component<
       })
       .then((data) => {
         console.log(data);
-        window.location.reload()
-        alert("Data Updated Successfully");
+        this.setState({
+          isloading: false
+        }, () => {
+          setTimeout(() => {
+            alert("Data Updated Successfully");
+            window.location.reload();
+          }, 0);
+        });
       })
       .catch((error) => {
-        alert(
-          "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
-        );
+        this.setState({
+          isloading: false
+        }, () => {
+          setTimeout(() => {
+            alert(
+              "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
+            );
+          }, 0);
+        });
         console.error("Error:", error);
       });
   };
@@ -357,7 +373,7 @@ export default class SystemGoalForm extends React.Component<
   public render(): React.ReactElement<ISystemGoalFormProps> {
     const { hospital, goalMetrix, updatedFields } = this.state;
 
-    console.log("Asli AAAAAAAAAAAAAAAAAAAAAA ------------------->", goalMetrix);
+    console.log("Asli Shubham Sharma ------>", goalMetrix);
 
     const headings = hospital.reduce((acc, item) => {
       if (item.DivisionId === null && item.Id !== 22) {
@@ -396,6 +412,17 @@ export default class SystemGoalForm extends React.Component<
 
     return (
       <>
+        {this.state.isloading && <div className="loader_container">
+          <div className="box_align">
+            <div className="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <span>Loading...</span>
+          </div>
+        </div>}
         <span className={`${styles.dummy}`} />
         <div className="system_goal_container">
           <div
