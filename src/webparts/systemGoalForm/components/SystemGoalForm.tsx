@@ -87,6 +87,19 @@ export default class SystemGoalForm extends React.Component<
     });
   };
 
+  componentDidUpdate(prevProps: any, prevState: any) {
+    console.log(prevProps)
+    // Check if isLoading state has changed
+    if (prevState.isloading !== this.state.isloading) {
+      if (this.state.isloading) {
+        document.body.classList.add('loading-class');
+      } else {
+        document.body.classList.remove('loading-class');
+      }
+    }
+  }
+
+
   private getInputBasedOnType = (inputType: string, value: any) => {
     let processedValue: any;
 

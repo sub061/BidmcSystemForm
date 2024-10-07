@@ -310,13 +310,22 @@
   color: #0078d4;
 }
 
+body.loading-class {
+  overflow: hidden !important;
+}
+body.loading-class * {
+  overflow: hidden !important;
+}
+
 .loader_container {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100vw;
+  left: 0;
+  top: 0;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.6);
 }
