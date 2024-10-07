@@ -35,7 +35,7 @@ interface ISystemGoalFormState {
   apiUrl: string;
   context: any;
   _sp: SPFI;
-  isloading: boolean
+  isloading: boolean;
 }
 
 export default class SystemGoalForm extends React.Component<
@@ -69,7 +69,7 @@ export default class SystemGoalForm extends React.Component<
         text: "Choose Sub Goal",
         goalId: null,
       },
-      isloading: false
+      isloading: false,
     };
     // const _sp: SPFI = getSP(props.context);
     this.handleItemClick = this.handleItemClick.bind(this);
@@ -210,11 +210,11 @@ export default class SystemGoalForm extends React.Component<
     const updatedArrayParam = this.state.updatedFields.map((item: any) => ({
       ...item,
       REC_MODIFY_BY: this.state.context._pageContext.user.email,
-      ReportType: item.ReportType ? item.ReportType : 'Q'
+      ReportType: item.ReportType ? item.ReportType : "Q",
     }));
     this.setState({
-      isloading: true
-    })
+      isloading: true,
+    });
     // Send the PUT request with the array of objects
     fetch(url, {
       method: "PUT",
@@ -229,35 +229,40 @@ export default class SystemGoalForm extends React.Component<
         }
 
         // Check if response body has content
-        return response.text().then(text => {
-          return text ? JSON.parse(text) : {};  // Parse JSON only if there is content
+        return response.text().then((text) => {
+          return text ? JSON.parse(text) : {}; // Parse JSON only if there is content
         });
       })
       .then((data) => {
         console.log(data);
-        this.setState({
-          isloading: false
-        }, () => {
-          setTimeout(() => {
-            alert("Data Updated Successfully");
-            window.location.reload();
-          }, 0);
-        });
+        this.setState(
+          {
+            isloading: false,
+          },
+          () => {
+            setTimeout(() => {
+              alert("Data Updated Successfully");
+              window.location.reload();
+            }, 0);
+          }
+        );
       })
       .catch((error) => {
-        this.setState({
-          isloading: false
-        }, () => {
-          setTimeout(() => {
-            alert(
-              "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
-            );
-          }, 0);
-        });
+        this.setState(
+          {
+            isloading: false,
+          },
+          () => {
+            setTimeout(() => {
+              alert(
+                "Sorry for the inconvenience. We are currently experiencing issues with our database. Please contact the site administrator for assistance."
+              );
+            }, 0);
+          }
+        );
         console.error("Error:", error);
       });
   };
-
 
   private handleInputChange = (
     item: any,
@@ -412,17 +417,19 @@ export default class SystemGoalForm extends React.Component<
 
     return (
       <>
-        {this.state.isloading && <div className="loader_container">
-          <div className="box_align">
-            <div className="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
+        {this.state.isloading && (
+          <div className="loader_container">
+            <div className="box_align">
+              <div className="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <span>Loading...</span>
             </div>
-            <span>Loading...</span>
           </div>
-        </div>}
+        )}
         <span className={`${styles.dummy}`} />
         <div className="system_goal_container">
           <div
